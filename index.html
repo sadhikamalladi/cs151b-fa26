@@ -1,352 +1,674 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CSE 151B · Fall 2026 Syllabus</title>
-<meta name="description" content="CSE 151B learning goals, weekly syllabus, programming assignments, and project milestones for Fall 2026.">
-<link rel="stylesheet" href="style.css?v=layout-20260917g">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23082d49%22/%3E%3Cpath%20d%3D%22M7%209h18M7%2016h18M7%2023h18M13%209v14%22%20stroke%3D%22%23e9b933%22%20stroke-width%3D%223%22/%3E%3C/svg%3E">
-</head>
-<body>
-<a class="skip" href="#schedule">Skip to schedule</a>
-<header>
-<div class="wrap heading">
-<div>
-<p class="eyebrow">UC San Diego · Fall 2026</p>
-<h1>CSE 151B <span>/ Introduction to Deep Learning</span>
-</h1>
-</div>
-<nav aria-label="Course pages">
-<a href="index.html" aria-current="page">Schedule</a>
-<a href="project.html">Project</a>
-<a href="grading.html">Grading</a>
-</nav>
-<span class="draft">Working syllabus</span>
-</div>
-</header>
-<main class="wrap">
-<section class="goals" aria-labelledby="goals-title">
-<h2 id="goals-title">What you’ll learn</h2>
-<div class="goal-grid">
-<div class="goal">
-<h3>
-<span class="tag">G1</span> Build a training system</h3>
-<p>Implement and debug a neural network: predictions, losses, gradients, and training.</p>
-</div>
-<div class="goal">
-<h3>
-<span class="tag g2">G2</span> Understand design choices</h3>
-<p>Explain design choices, test their tradeoffs, and judge what experiments establish.</p>
-</div>
-<div class="goal">
-<h3>
-<span class="tag g3">G3</span> Reason about AI in the real world</h3>
-<p>Evaluate AI safety, ethics, ownership, control, and governance in real-world use.</p>
-</div>
-<div class="goal">
-<h3>
-<span class="tag g4">G4</span> Apply AI in professional practice</h3>
-<p>Build, use, and adapt AI for real needs; make and communicate sound deployment decisions.</p>
-</div>
-</div>
-</section>
-<div class="rhythm">
-<span><b>Lectures</b> Tuesdays &amp; Thursdays · 2:00–3:20 p.m. · WLH 2005 (Warren Lecture Hall, room 2005)</span>
-<span><b>Discussion</b> Mondays · 4:00–4:50 p.m. · CENTR 115 (Center Hall, room 115)</span>
-<span>
-<b>Take-home deadlines</b> 11:59 p.m. Pacific</span>
-<span>
-<b>Instruction</b> Sep 24 – Dec 4</span>
-</div>
-<section id="schedule">
-<div class="section-head">
-<h2>The quarter, week by week</h2>
-</div>
-<div class="table-scroll" role="region" aria-label="Weekly syllabus grid" tabindex="0">
-<table>
-<thead>
-<tr>
-<th scope="col">Week / dates</th>
-<th scope="col">Monday discussion / quiz</th>
-<th scope="col">Tuesday / Thursday lectures</th>
-<th scope="col">Homework ideas &amp; preparation</th>
-<th scope="col">Weekly learning goal</th>
-<th scope="col">Project milestones</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th scope="row">00<span>Sep 24–25</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">No Monday meeting.</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p>
-<span class="date">Thu · Sep 24</span>
-<b>AI breakthroughs, unintended behavior, and why learn?</b>
-<br>AI-assisted mathematics, evaluation cheating, course purpose, syllabus and support</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>
-<span class="event ">Sep 24 · HW0: optional foundations self-check</span>
-<br>(1) NumPy and array shapes; (2) calculus, linear algebra, and probability. Worked answers; no grade, submission, or deadline.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p>
-<b>Distinguish what AI can do from what we want it to do.</b>
-</p>
-</td>
-<td class="none" data-label="Project milestones">
-<span class="empty" aria-label="None">—</span>
-</td>
-</tr>
-<tr>
-<th scope="row">01<span>Sep 28–Oct 2</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Sep 28 · Foundations clinic</span>Calculus, probability, linear algebra; no quiz or HW0 completion required.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Sep 29</span><b>ML settings and learning objectives</b><br>Recap supervised, self-supervised, and reward-based learning through their inputs, feedback, objectives, baselines, and evaluations. Discuss data quality and compute constraints.</p><p><span class="date">Thu · Oct 1</span><b>Why deep learning? The need for nonlinearities</b><br>Use a simple nonlinearly separable task to expose a linear model’s limit; see why stacked linear layers still collapse to one linear map; add a nonlinearity, trace a small prediction and loss, and connect learned features to images and language.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: trace a small network’s input–target pairs and predictions in NumPy; (2) Math: compare losses in toy learning settings.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Choose an objective, explain a linear model’s limit, and trace how a nonlinear network makes a prediction.</b></p>
-</td>
-<td class="none" data-label="Project milestones">
-<span class="empty" aria-label="None">—</span>
-</td>
-</tr>
-<tr>
-<th scope="row">02<span>Oct 5–9</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Oct 5 · Q1</span>Learning settings, objectives, and forward computation; practice: array shapes.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Oct 6</span><b>Backpropagation</b><br>Chain rule, gradients through a small network, weights and biases, dimension checks, and autodiff.</p><p><span class="date">Thu · Oct 8</span><b>Optimization and the training loop</b><br>Minibatch updates, learning rates, momentum, a complete update loop, and basic Adam intuition.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: implement and check gradients in a small network; (2) Math: calculate one gradient and weight update.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Compute and check a network gradient, then use it to update the model.</b></p>
-</td>
-<td class="none" data-label="Project milestones">
-<span class="empty" aria-label="None">—</span>
-</td>
-</tr>
-<tr>
-<th scope="row">03<span>Oct 12–16</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Oct 12 · Q2</span>Backpropagation and gradient checks; practice: learning-rate diagnosis.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Oct 13</span><b>Data, validation, and training diagnosis</b><br>Train/validation curves, tiny-subset checks, early stopping, weight decay, mislabeled data, and leakage.</p><p><span class="date">Thu · Oct 15</span><b>Experiment design and design goals</b><br>Research questions, baselines, controlled comparisons, measurements, uncertainty, and compute budgets.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: train a small classifier and plot learning curves; (2) Math: compare two models with a shared evaluation set.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Diagnose a training result and design a comparison that could test a specific claim.</b></p>
-</td>
-<td class="none" data-label="Project milestones">
-<span class="empty" aria-label="None">—</span>
-</td>
-</tr>
-<tr class="exam">
-<th scope="row">04<span>Oct 19–23</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Oct 19 · Midterm review</span>Worked fundamentals, training diagnosis, and experiment-design questions; no quiz.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Oct 20</span><b>Handwritten midterm</b><br>Forward and backward computation, optimization, data, validation, training diagnosis, and controlled comparisons.</p><p><span class="date">Thu · Oct 22</span><b>Learning from language: transformers</b><br>Tokenization, embeddings, next-token prediction, causal attention, masking, and transformer blocks.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: inspect a supplied causal-attention mask; (2) Math: calculate one attention row.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Show mastery of training fundamentals; explain basic causal attention.</b></p>
-</td>
-<td class="project-cell" data-label="Project milestones">
-<p>
-<span class="date">Oct 22 · Preview</span>
-<a href="project.html#missions">Six mission questions</a>; no submission or team formation.</p>
-<p>
-<span class="date">Oct 23</span>UCSD drop-without-W deadline.</p>
-</td>
-</tr>
-<tr>
-<th scope="row">05<span>Oct 26–30</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Oct 26 · Q3</span>Optimization and validation; practice: transformers and recurrence.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Oct 27</span><b>Learning from language: state-space models</b><br>Recurrent state, input-dependent updates, compressed context, and attention tradeoffs.</p><p><span class="date">Thu · Oct 29</span><b>The language-model pipeline</b><br>Data preparation, pretraining, instruction tuning, preference-based post-training, generation, and evaluation.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: trace a small recurrent state; (2) Math: compare attention and state-memory costs.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Compare attention and state-space models; explain the stages of language-model training.</b></p>
-</td>
-<td class="project-cell" data-label="Project milestones">
-<p>
-<span class="date">Oct 26 · Teams set</span>Form five-person teams after the Oct 23 drop deadline. Staff place ungrouped students by the end of the day. Oct 29 begins Deliverable 1 and introduces the mission choices. Staff release a small bundle of example requests, model outputs or data for every mission, plus a plain-language sketch guide; teams submit mission preferences. No experiment plan yet.</p>
-</td>
-</tr>
-<tr>
-<th scope="row">06<span>Nov 2–6</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Nov 2 · Q4</span>Attention, state updates, and language-model stages; practice: mission design.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Nov 3</span><b>Learning from rewards: reinforcement learning</b><br>Policies, sampled outputs, rewards, a one-step policy-gradient update, and reward design for LM post-training.</p><p><span class="date">Thu · Nov 5</span><b>GPU computation: layouts and memory access</b><br>Threads and blocks, tensor layouts, coalesced access, tiling, reuse, and benchmarking.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: sample outputs, score rewards, or inspect memory access; (2) Math: calculate a one-step reward update.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Calculate a simple reward-based update and explain how memory layout can affect speed.</b></p>
-</td>
-<td class="project-cell" data-label="Project milestones">
-<p>
-<span class="date">Nov 5–6 · Starter released</span>The full model starter, working notebooks, experiment-sketch form, and computing limits are released. Materials cover short-training controls and saved checkpoints, ordinary-story tests, generation settings, paired-prompt examples, and word-checker cases. Staff show how each mission can be studied with modest compute on Nov 9.</p>
-</td>
-</tr>
-<tr>
-<th scope="row">07<span>Nov 9–13</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Nov 9 · Q5</span>LM pipeline and reward updates; practice: project training and evaluation trace.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Nov 10</span><b>Learning from images: CNNs and transformers</b><br>Convolutions, shared weights, receptive fields, image patches, and vision transformers.</p><p><span class="date">Thu · Nov 12</span><b>Interpretability and data attribution</b><br>Input sensitivity, internal interventions, and a small training-data removal example. Distinguish explanations of a prediction from evidence about influential training examples.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: inspect a small convolution or prepared attribution results; (2) Math: compare output changes under a controlled data-removal test.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Explain image-model structure and judge what an interpretability or data-attribution result supports.</b></p>
-</td>
-<td class="project-cell" data-label="Project milestones">
-<p>
-<span class="date">Nov 9 · Walkthrough</span>
-Project walkthrough: run a small check on an ordinary computer, follow one training and testing example, and change one story detail at a time. Staff demonstrate generation settings, a paired-prompt comparison, the three-word checker, and the good/messy example sets.</p>
-<p>
-<span class="event due">Nov 12 · Deliverable 1: individual sketches due</span>Each team member proposes a hypothesis, an experiment, and an evaluation that fit together within the team’s mission. Inspect at least one supplied example or output. No implementation or training result is required; a slightly ambitious plan is acceptable.</p>
-<p><span class="date">Nov 13 · Deliverable 2 begins</span>The team commits to one sketch and develops one coherent plan with at least five related experiments.</p>
-</td>
-</tr>
-<tr>
-<th scope="row">08<span>Nov 16–20</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Nov 16 · Q6</span>GPU layouts, vision models, and attribution limits; practice: project-design clinic.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Nov 17</span><b>AI safety: evaluations and safeguards</b><br>Misuse, reliability, misalignment, adversarial testing, safeguards, and monitoring. Use interpretability evidence from Nov. 12 with its stated limits.</p><p><span class="date">Thu · Nov 19</span><b>AI governance and ethics: who decides?</b><br>Release thresholds, independent review, oversight, open versus hosted release, ownership, consent, and accountability.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: build a small safety-evaluation set; (2) Math: calculate error rates at a release threshold.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Use safety evidence and governance rules to justify a release decision.</b></p>
-</td>
-<td class="project-cell" data-label="Project milestones">
-<p>
-<span class="event due">Nov 16 · Draft team plan to staff</span>Commit to one of the five sketches. As a team, draft at least five related experiments, each with a prediction, comparison, measure, and rough compute estimate.</p>
-<p>
-<span class="date">Nov 18 · Staff feasibility critique</span>Staff respond to the draft plan, including which experiments fit the course compute allowance and how to reduce costly ones.</p>
-<p>
-<span class="date">Nov 18–19 · Peer review</span>
-Exchange draft experiment plans; check whether all five tests address the chosen direction and whether the measurements answer their predictions. Respond to peer and staff feedback.</p>
-<p>
-<span class="event due">Nov 20 · Deliverable 2: team experiment plan due</span>Submit the chosen direction, rationale, and a revised plan for at least five related experiments. No completed runs are required. Use staff feedback to mark which tests will run and which remain proposed; fix the scoring method before examining final test examples.</p>
-<p><span class="date">Nov 21 · Deliverable 3 begins</span>Run the feasible tests and start the mini paper.</p>
-</td>
-</tr>
-<tr>
-<th scope="row">09<span>Nov 23–27</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Nov 23 · Q7</span>Safety and governance case; practice: project-evidence clinic.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Nov 24</span><b>Industry panel: from demo to deployment</b><br>Failed experiments, design choices, deployment decisions, career lessons, and audience questions.</p><p><span class="date">Thu · Nov 26</span><b>Thanksgiving</b><br>No lecture.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: organize available project results; (2) Math: quantify uncertainty when results are available. No new holiday experiments.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Identify what changes when a model becomes a deployed system.</b></p>
-</td>
-<td class="project-cell" data-label="Project milestones">
-<p>
-<span class="event">Nov 23 · Progress check</span>
-<br>
-Submit a brief setup and progress update on the approved experiments, any results available so far, and what still needs fixing. Finished results are not required yet.</p>
-<p>Continue feasible tests before the holiday and draft the mini paper. No new assigned holiday experiments.</p>
-</td>
-</tr>
-<tr>
-<th scope="row">10<span>Nov 30–Dec 4</span>
-</th>
-<td class="" data-label="Monday discussion / quiz">
-<p><span class="date">Nov 30 · Q8</span>Experimental reasoning through Nov. 19; course synthesis.</p>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p><span class="date">Tue · Dec 1</span><b>Multimodal learning</b><br>Paired image–text data, contrastive loss, retrieval, generation, and visual grounding.</p><p><span class="date">Thu · Dec 3</span><b>From models to systems: agents and driving</b><br>Agents, observation, tool use, feedback, driving systems, latency, and system-level evaluation.</p>
-</td>
-<td class="" data-label="Homework ideas &amp; preparation">
-<p>(1) Programming: test image–text retrieval or visual grounding; (2) Math: calculate a small contrastive loss.</p>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p><b>Explain image–text learning and evaluate an AI system end to end.</b></p>
-</td>
-<td class="project-cell" data-label="Project milestones">
-<p>
-<span class="event due">Dec 1 · Deliverable 3: mini paper due</span>
-<br>
-Submit a team mini paper of at most three pages: abstract, question and hypotheses, methods, results, and discussion with limitations. Include saved settings and results, a contribution record, and a separate 300–400-word technical analysis from each student.</p>
-<p>Prepare Deliverable 4 from Dec 2 until the assigned presentation slot (3–10 days). Presentations take place Dec 5–12; exact slots are TBD.</p>
-</td>
-</tr>
-<tr class="project-final">
-<th scope="row">Finals<span>Dec 5–12</span>
-</th>
-<td class="none" data-label="Monday discussion / quiz">
-<span class="empty" aria-label="None">—</span>
-</td>
-<td class="" data-label="Tuesday / Thursday lectures">
-<p>
-<span class="date">Date/time TBD</span>
-<b>Final project presentations and individual questions</b>
-<br>Deliverable 4 replaces the final exam. Nine or ten slides; each member speaks and answers a question. Exact time to be confirmed.</p>
-</td>
-<td class="none" data-label="Homework ideas &amp; preparation">
-<span class="empty" aria-label="None">—</span>
-</td>
-<td class="" data-label="Weekly learning goal">
-<p>
-<b>Explain and defend the team's experimental evidence and conclusions.</b>
-</p>
-</td>
-<td class="none" data-label="Project milestones">
-<span class="empty" aria-label="None">—</span>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p class="note">Homework ideas are options for course planning, not assigned work or deadlines. HW0 is optional and ungraded. See the <a href="project.html">project guide</a> and <a href="grading.html">grading breakdown</a>.</p>
-</section>
-</main>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CSE 151B · Fall 2026 Syllabus</title>
+    <meta
+      name="description"
+      content="CSE 151B learning goals, weekly syllabus, programming assignments, and project milestones for Fall 2026."
+    />
+    <link rel="stylesheet" href="style.css?v=layout-20260917g" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23082d49%22/%3E%3Cpath%20d%3D%22M7%209h18M7%2016h18M7%2023h18M13%209v14%22%20stroke%3D%22%23e9b933%22%20stroke-width%3D%223%22/%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <a class="skip" href="#schedule">Skip to schedule</a>
+    <header>
+      <div class="wrap heading">
+        <div>
+          <p class="eyebrow">UC San Diego · Fall 2026</p>
+          <h1>CSE 151B <span>| Introduction to Deep Learning</span></h1>
+        </div>
+        <nav aria-label="Course pages">
+          <a href="index.html" aria-current="page">Schedule</a>
+          <a href="project.html">Project</a>
+          <a href="grading.html">Grading</a>
+        </nav>
+        <span class="draft">Working syllabus</span>
+      </div>
+    </header>
+    <main class="wrap">
+      <section class="goals" aria-labelledby="goals-title">
+        <h2 id="goals-title">What you’ll learn</h2>
+        <div class="goal-grid">
+          <div class="goal">
+            <h3><span class="tag">G1</span> Build a training system</h3>
+            <p>
+              Implement and debug a neural network: predictions, losses,
+              gradients, and training.
+            </p>
+          </div>
+          <div class="goal">
+            <h3><span class="tag g2">G2</span> Understand design choices</h3>
+            <p>
+              Explain design choices, test their tradeoffs, and judge what
+              experiments establish.
+            </p>
+          </div>
+          <div class="goal">
+            <h3>
+              <span class="tag g3">G3</span> Reason about AI in the real world
+            </h3>
+            <p>
+              Evaluate AI safety, ethics, ownership, control, and governance in
+              real-world use.
+            </p>
+          </div>
+          <div class="goal">
+            <h3>
+              <span class="tag g4">G4</span> Apply AI in professional practice
+            </h3>
+            <p>
+              Build, use, and adapt AI for real needs; make and communicate
+              sound deployment decisions.
+            </p>
+          </div>
+        </div>
+      </section>
+      <div class="rhythm">
+        <span
+          ><b>Lectures</b> Tuesdays &amp; Thursdays · 2:00–3:20 p.m. · WLH 2005
+          (Warren Lecture Hall, room 2005)</span
+        >
+        <span
+          ><b>Discussion</b> Mondays · 4:00–4:50 p.m. · CENTR 115 (Center Hall,
+          room 115)</span
+        >
+        <span> <b>Take-home deadlines</b> 11:59 p.m. Pacific</span>
+        <span> <b>Instruction</b> Sep 24 – Dec 4</span>
+      </div>
+      <section id="schedule">
+        <div class="section-head">
+          <h2>The quarter, week by week</h2>
+        </div>
+        <div
+          class="table-scroll"
+          role="region"
+          aria-label="Weekly syllabus grid"
+          tabindex="0"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Week / dates</th>
+                <th scope="col">Monday discussion / quiz</th>
+                <th scope="col">Tuesday / Thursday lectures</th>
+                <th scope="col">Homework &amp; Programming Assignments</th>
+                <th scope="col">Weekly learning goal</th>
+                <th scope="col">Project milestones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">00<span>Sep 24–25</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  No Monday meeting.
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Thu · Sep 24</span>
+                    <b>Syllabus and AI today</b>
+                    <br />Course syllabus and discussion of modern AI systems.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    <span class="event">Sep 24 · HW0 and PA0 (ungraded)</span>
+                    <br />(1) NumPy and array shapes; (2) calculus, linear
+                    algebra, and probability.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <span class="empty" aria-label="None">—</span>
+                </td>
+                <td class="none" data-label="Project milestones">
+                  <span class="empty" aria-label="None">—</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">01<span>Sep 28–Oct 2</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Sep 28 · Foundations clinic</span
+                    >Discussion of HW0 and PA0 topics.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Sep 29</span
+                    ><b>ML settings and learning objectives</b><br />
+                    Review supervised, self-supervised, and reward-based learning objectives.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Oct 1</span
+                    ><b>Deep learning vs. machine learning</b
+                    ><br />
+                    What we gain and what we lose by making deep neural networks.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                     PA1 (due 10/5)
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Understand when each type of machine learning objective is appropriate. Construct deep neural networks.</b
+                    >
+                  </p>
+                </td>
+                <td class="none" data-label="Project milestones">
+                  <span class="empty" aria-label="None">—</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">02<span>Oct 5–9</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Oct 5 · Quiz 1</span>Learning settings,
+                    objectives, and forward computation.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Oct 6</span><b>Backpropagation</b
+                    ><br />Gradients of matrices and vectors, and automatic differentiation.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Oct 8</span
+                    ><b>Optimization and the training loop</b><br /> Gradient descent and its variants.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    HW1 and PA2 (due 10/12).
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Compute and check a network gradient, then use it to
+                      update the model.</b
+                    >
+                  </p>
+                </td>
+                <td class="none" data-label="Project milestones">
+                  <span class="empty" aria-label="None">—</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">03<span>Oct 12–16</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Oct 12 · Quiz 2</span>Backpropagation and optimization.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Oct 13</span
+                    ><b>Datasets and Training Diagnoses</b
+                    ><br />Train/validation curves, tiny-subset checks, early
+                    stopping, weight decay, mislabeled data, and leakage.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Oct 15</span
+                    ><b>Experiment design and design goals</b><br />Research
+                    questions, baselines, controlled comparisons, measurements,
+                    uncertainty, and compute budgets.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    (1) Programming: train a small classifier and plot learning
+                    curves; (2) Math: compare two models with a shared
+                    evaluation set.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Diagnose a training result and design a comparison that
+                      could test a specific claim.</b
+                    >
+                  </p>
+                </td>
+                <td class="none" data-label="Project milestones">
+                  <span class="empty" aria-label="None">—</span>
+                </td>
+              </tr>
+              <tr class="exam">
+                <th scope="row">04<span>Oct 19–23</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Oct 19 · Midterm review</span>Worked
+                    fundamentals, training diagnosis, and experiment-design
+                    questions; no quiz.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Oct 20</span
+                    ><b>Handwritten midterm</b><br />Forward and backward
+                    computation, optimization, data, validation, training
+                    diagnosis, and controlled comparisons.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Oct 22</span
+                    ><b>Learning from language: transformers</b
+                    ><br />Tokenization, embeddings, next-token prediction,
+                    causal attention, masking, and transformer blocks.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    (1) Programming: inspect a supplied causal-attention mask;
+                    (2) Math: calculate one attention row.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Show mastery of training fundamentals; explain basic
+                      causal attention.</b
+                    >
+                  </p>
+                </td>
+                <td class="project-cell" data-label="Project milestones">
+                  <p>
+                    <span class="date">Oct 22 · Preview</span>
+                    <a href="project.html#missions">Six mission questions</a>;
+                    no submission or team formation.
+                  </p>
+                  <p>
+                    <span class="date">Oct 23</span>UCSD drop-without-W
+                    deadline.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">05<span>Oct 26–30</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Oct 26 · Q3</span>Optimization and
+                    validation; practice: transformers and recurrence.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Oct 27</span
+                    ><b>Learning from language: state-space models</b
+                    ><br />Recurrent state, input-dependent updates, compressed
+                    context, and attention tradeoffs.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Oct 29</span
+                    ><b>The language-model pipeline</b><br />Data preparation,
+                    pretraining, instruction tuning, preference-based
+                    post-training, generation, and evaluation.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    (1) Programming: trace a small recurrent state; (2) Math:
+                    compare attention and state-memory costs.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Compare attention and state-space models; explain the
+                      stages of language-model training.</b
+                    >
+                  </p>
+                </td>
+                <td class="project-cell" data-label="Project milestones">
+                  <p>
+                    <span class="date">Oct 26 · Teams set</span>Form five-person
+                    teams after the Oct 23 drop deadline. Staff place ungrouped
+                    students by the end of the day. Oct 29 begins Deliverable 1
+                    and introduces the mission choices. Staff release a small
+                    bundle of example requests, model outputs or data for every
+                    mission, plus a plain-language sketch guide; teams submit
+                    mission preferences. No experiment plan yet.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">06<span>Nov 2–6</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Nov 2 · Q4</span>Attention, state
+                    updates, and language-model stages; practice: mission
+                    design.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Nov 3</span
+                    ><b>Learning from rewards: reinforcement learning</b
+                    ><br />Policies, sampled outputs, rewards, a one-step
+                    policy-gradient update, and reward design for LM
+                    post-training.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Nov 5</span
+                    ><b>GPU computation: layouts and memory access</b
+                    ><br />Threads and blocks, tensor layouts, coalesced access,
+                    tiling, reuse, and benchmarking.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    (1) Programming: sample outputs, score rewards, or inspect
+                    memory access; (2) Math: calculate a one-step reward update.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Calculate a simple reward-based update and explain how
+                      memory layout can affect speed.</b
+                    >
+                  </p>
+                </td>
+                <td class="project-cell" data-label="Project milestones">
+                  <p>
+                    <span class="date">Nov 5–6 · Starter released</span>The full
+                    model starter, working notebooks, experiment-sketch form,
+                    and computing limits are released. Materials cover
+                    short-training controls and saved checkpoints,
+                    ordinary-story tests, generation settings, paired-prompt
+                    examples, and word-checker cases. Staff show how each
+                    mission can be studied with modest compute on Nov 9.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">07<span>Nov 9–13</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Nov 9 · Q5</span>LM pipeline and reward
+                    updates; practice: project training and evaluation trace.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Nov 10</span
+                    ><b>Learning from images: CNNs and transformers</b
+                    ><br />Convolutions, shared weights, receptive fields, image
+                    patches, and vision transformers.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Nov 12</span
+                    ><b>Interpretability and data attribution</b><br />Input
+                    sensitivity, internal interventions, and a small
+                    training-data removal example. Distinguish explanations of a
+                    prediction from evidence about influential training
+                    examples.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    (1) Programming: inspect a small convolution or prepared
+                    attribution results; (2) Math: compare output changes under
+                    a controlled data-removal test.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Explain image-model structure and judge what an
+                      interpretability or data-attribution result supports.</b
+                    >
+                  </p>
+                </td>
+                <td class="project-cell" data-label="Project milestones">
+                  <p>
+                    <span class="date">Nov 9 · Walkthrough</span>
+                    Project walkthrough: run a small check on an ordinary
+                    computer, follow one training and testing example, and
+                    change one story detail at a time. Staff demonstrate
+                    generation settings, a paired-prompt comparison, the
+                    three-word checker, and the good/messy example sets.
+                  </p>
+                  <p>
+                    <span class="event due"
+                      >Nov 12 · Deliverable 1: individual sketches due</span
+                    >Each team member proposes a hypothesis, an experiment, and
+                    an evaluation that fit together within the team’s mission.
+                    Inspect at least one supplied example or output. No
+                    implementation or training result is required; a slightly
+                    ambitious plan is acceptable.
+                  </p>
+                  <p>
+                    <span class="date">Nov 13 · Deliverable 2 begins</span>The
+                    team commits to one sketch and develops one coherent plan
+                    with at least five related experiments.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">08<span>Nov 16–20</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Nov 16 · Q6</span>GPU layouts, vision
+                    models, and attribution limits; practice: project-design
+                    clinic.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Nov 17</span
+                    ><b>AI safety: evaluations and safeguards</b><br />Misuse,
+                    reliability, misalignment, adversarial testing, safeguards,
+                    and monitoring. Use interpretability evidence from Nov. 12
+                    with its stated limits.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Nov 19</span
+                    ><b>AI governance and ethics: who decides?</b><br />Release
+                    thresholds, independent review, oversight, open versus
+                    hosted release, ownership, consent, and accountability.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    (1) Programming: build a small safety-evaluation set; (2)
+                    Math: calculate error rates at a release threshold.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Use safety evidence and governance rules to justify a
+                      release decision.</b
+                    >
+                  </p>
+                </td>
+                <td class="project-cell" data-label="Project milestones">
+                  <p>
+                    <span class="event due"
+                      >Nov 16 · Draft team plan to staff</span
+                    >Commit to one of the five sketches. As a team, draft at
+                    least five related experiments, each with a prediction,
+                    comparison, measure, and rough compute estimate.
+                  </p>
+                  <p>
+                    <span class="date">Nov 18 · Staff feasibility critique</span
+                    >Staff respond to the draft plan, including which
+                    experiments fit the course compute allowance and how to
+                    reduce costly ones.
+                  </p>
+                  <p>
+                    <span class="date">Nov 18–19 · Peer review</span>
+                    Exchange draft experiment plans; check whether all five
+                    tests address the chosen direction and whether the
+                    measurements answer their predictions. Respond to peer and
+                    staff feedback.
+                  </p>
+                  <p>
+                    <span class="event due"
+                      >Nov 20 · Deliverable 2: team experiment plan due</span
+                    >Submit the chosen direction, rationale, and a revised plan
+                    for at least five related experiments. No completed runs are
+                    required. Use staff feedback to mark which tests will run
+                    and which remain proposed; fix the scoring method before
+                    examining final test examples.
+                  </p>
+                  <p>
+                    <span class="date">Nov 21 · Deliverable 3 begins</span>Run
+                    the feasible tests and start the mini paper.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">09<span>Nov 23–27</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Nov 23 · Q7</span>Safety and governance
+                    case; practice: project-evidence clinic.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Nov 24</span
+                    ><b>Industry panel: from demo to deployment</b><br />Failed
+                    experiments, design choices, deployment decisions, career
+                    lessons, and audience questions.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Nov 26</span><b>Thanksgiving</b
+                    ><br />No lecture.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    (1) Programming: organize available project results; (2)
+                    Math: quantify uncertainty when results are available. No
+                    new holiday experiments.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Identify what changes when a model becomes a deployed
+                      system.</b
+                    >
+                  </p>
+                </td>
+                <td class="project-cell" data-label="Project milestones">
+                  <p>
+                    <span class="event">Nov 23 · Progress check</span>
+                    <br />
+                    Submit a brief setup and progress update on the approved
+                    experiments, any results available so far, and what still
+                    needs fixing. Finished results are not required yet.
+                  </p>
+                  <p>
+                    Continue feasible tests before the holiday and draft the
+                    mini paper. No new assigned holiday experiments.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">10<span>Nov 30–Dec 4</span></th>
+                <td class="" data-label="Monday discussion / quiz">
+                  <p>
+                    <span class="date">Nov 30 · Q8</span>Experimental reasoning
+                    through Nov. 19; course synthesis.
+                  </p>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Tue · Dec 1</span
+                    ><b>Multimodal learning</b><br />Paired image–text data,
+                    contrastive loss, retrieval, generation, and visual
+                    grounding.
+                  </p>
+                  <p>
+                    <span class="date">Thu · Dec 3</span
+                    ><b>From models to systems: agents and driving</b
+                    ><br />Agents, observation, tool use, feedback, driving
+                    systems, latency, and system-level evaluation.
+                  </p>
+                </td>
+                <td class="" data-label="Homework ideas &amp; preparation">
+                  <p>
+                    (1) Programming: test image–text retrieval or visual
+                    grounding; (2) Math: calculate a small contrastive loss.
+                  </p>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Explain image–text learning and evaluate an AI system end
+                      to end.</b
+                    >
+                  </p>
+                </td>
+                <td class="project-cell" data-label="Project milestones">
+                  <p>
+                    <span class="event due"
+                      >Dec 1 · Deliverable 3: mini paper due</span
+                    >
+                    <br />
+                    Submit a team mini paper of at most three pages: abstract,
+                    question and hypotheses, methods, results, and discussion
+                    with limitations. Include saved settings and results, a
+                    contribution record, and a separate 300–400-word technical
+                    analysis from each student.
+                  </p>
+                  <p>
+                    Prepare Deliverable 4 from Dec 2 until the assigned
+                    presentation slot (3–10 days). Presentations take place Dec
+                    5–12; exact slots are TBD.
+                  </p>
+                </td>
+              </tr>
+              <tr class="project-final">
+                <th scope="row">Finals<span>Dec 5–12</span></th>
+                <td class="none" data-label="Monday discussion / quiz">
+                  <span class="empty" aria-label="None">—</span>
+                </td>
+                <td class="" data-label="Tuesday / Thursday lectures">
+                  <p>
+                    <span class="date">Date/time TBD</span>
+                    <b>Final project presentations and individual questions</b>
+                    <br />Deliverable 4 replaces the final exam. Nine or ten
+                    slides; each member speaks and answers a question. Exact
+                    time to be confirmed.
+                  </p>
+                </td>
+                <td class="none" data-label="Homework ideas &amp; preparation">
+                  <span class="empty" aria-label="None">—</span>
+                </td>
+                <td class="" data-label="Weekly learning goal">
+                  <p>
+                    <b
+                      >Explain and defend the team's experimental evidence and
+                      conclusions.</b
+                    >
+                  </p>
+                </td>
+                <td class="none" data-label="Project milestones">
+                  <span class="empty" aria-label="None">—</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">
+          Homework ideas are options for course planning, not assigned work or
+          deadlines. HW0 is optional and ungraded. See the
+          <a href="project.html">project guide</a> and
+          <a href="grading.html">grading breakdown</a>.
+        </p>
+      </section>
+    </main>
+  </body>
 </html>
