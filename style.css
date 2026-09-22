@@ -88,3 +88,48 @@ nav a[aria-current="page"]{color:var(--navy);text-decoration:underline;text-deco
 @media(max-width:850px){.project-missions{width:92%}.mission-table-wrap{overflow:visible}.mission-table{min-width:0}.mission-table caption{display:block;padding:0 0 10px}.mission-table tbody th{font-size:1.1rem}.mission-table td{font-size:1rem}.mission-table tbody th .mission-number{display:block;margin:0 0 5px}.mission-table .mission-prompt{margin-top:5px}.mission-table .grade-criterion{padding-top:8px}}
 @media(max-width:600px){.project-missions{width:calc(100% - 32px)}.project-stages{grid-template-columns:1fr}}
 @media print{.project-missions{width:100%;max-width:none}.mission-table{min-width:0;font-size:8pt}.mission-table td{font-size:8pt}.mission-table tbody th{font-size:8pt}.mission-table .mission-prompt{font-size:7pt}.mission-table .grade-criterion{padding-top:4px}}
+
+/* Course policies and staff: readable text and navigation at every width. */
+.heading{flex-wrap:wrap}
+.heading>div{flex:1 1 520px}
+nav{flex-wrap:wrap}
+.policy-guide{max-width:900px;line-height:1.65}
+.policy-guide section{padding-top:26px;border-top:1px solid var(--line)}
+.policy-guide h3{margin-top:24px}
+.policy-guide .callout p{margin:0}
+.course-facts{display:grid;grid-template-columns:125px minmax(0,1fr);gap:10px 20px;margin:18px 0 24px}
+.course-facts dt{font-weight:650;color:var(--navy)}
+.course-facts dd{margin:0}
+.staff-card{padding:22px 24px;background:#f4f7fa;border-left:4px solid var(--blue);border-radius:4px}
+.staff-card h3{margin-top:0}
+.staff-card .course-facts{margin-bottom:0}
+.policy-guide .grades{font-size:.95rem}
+.policy-guide .note{margin:14px 0}
+@media(max-width:600px){.heading{gap:18px}.heading nav{gap:12px 18px;width:100%}.heading .draft{margin-left:0}.course-facts{grid-template-columns:1fr;gap:4px}.course-facts dd{margin-bottom:12px}.policy-guide .grades{grid-template-columns:1fr;gap:4px}.policy-guide .grades dt{border-bottom:0;padding:0}.policy-guide .grades dd{margin-bottom:10px}.staff-card{padding:18px}}
+
+/* Staff profiles and the office-hours schedule. */
+.staff-guide{max-width:1100px}
+.staff-guide .page-intro{max-width:none}
+.staff-guide section:first-of-type{margin-top:0}
+.staff-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.staff-profile{min-width:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+.staff-photo{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;object-position:center;background:#f0f4f7}
+.staff-photo-placeholder{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;border-bottom:1px solid var(--line)}
+.staff-profile-details{padding:18px 20px}
+.staff-profile-details h3{margin:0 0 6px;font-size:1.15rem;line-height:1.4}
+.staff-profile-details p{margin:0 0 8px;overflow-wrap:anywhere}
+.staff-profile-details p:last-child{margin-bottom:0}
+.staff-year,.staff-email-pending{color:var(--muted);font-size:.95rem}
+.office-hours-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+.office-hours-scroll:focus-visible{outline:3px solid #dca400;outline-offset:4px}
+.office-hours-table{display:table;min-width:650px;width:100%;table-layout:fixed}
+.office-hours-table caption{caption-side:top;text-align:left;padding:12px 15px;color:var(--muted);font-size:.9rem;background:#f8fafc}
+.office-hours-table thead{display:table-header-group}
+.office-hours-table tbody{display:table-row-group}
+.office-hours-table tr{display:table-row}
+.office-hours-table th,.office-hours-table td{display:table-cell;padding:14px 16px;font-size:.95rem;overflow-wrap:break-word}
+.office-hours-table thead th{position:static;width:25%}
+.office-hours-table td:before{content:none}
+@media(max-width:850px){.staff-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.staff-grid{grid-template-columns:1fr}.staff-profile{display:grid;grid-template-columns:100px minmax(0,1fr);align-items:start}.staff-photo{width:100px;height:100px}.staff-photo-placeholder{font-size:.75rem;border-bottom:0}.staff-profile-details{padding:12px 14px}.staff-profile-details h3{font-size:1rem}.staff-profile-details p{font-size:.875rem}}
+@media print{.office-hours-scroll{overflow:visible}.office-hours-table{min-width:0}.staff-profile{break-inside:avoid}}
