@@ -89,6 +89,11 @@ nav a[aria-current="page"]{color:var(--navy);text-decoration:underline;text-deco
 @media(max-width:600px){.project-missions{width:calc(100% - 32px)}.project-stages{grid-template-columns:1fr}}
 @media print{.project-missions{width:100%;max-width:none}.mission-table{min-width:0;font-size:8pt}.mission-table td{font-size:8pt}.mission-table tbody th{font-size:8pt}.mission-table .mission-prompt{font-size:7pt}.mission-table .grade-criterion{padding-top:4px}}
 
+/* Keep lecture resources distinct from the topic and description. */
+.lecture-resources{display:block;margin-top:8px;font-size:.875rem;font-weight:600}
+.lecture-resources a{display:inline-block;padding:4px 10px;border:1px solid #c9dfee;border-radius:4px;background:#f3f8fc}
+.lecture-resources a:hover{background:#e7f1fa}
+
 /* Course policies and staff: readable text and navigation at every width. */
 .heading{flex-wrap:wrap}
 .heading>div{flex:1 1 520px}
