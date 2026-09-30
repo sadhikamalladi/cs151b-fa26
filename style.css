@@ -93,7 +93,7 @@ nav a[aria-current="page"]{color:var(--navy);text-decoration:underline;text-deco
 .lecture-resources{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px;font-size:.875rem;font-weight:600}
 .lecture-resources a{display:inline-block;padding:4px 10px;border:1px solid #c9dfee;border-radius:4px;background:#f3f8fc}
 .lecture-resources a:hover{background:#e7f1fa}
-.lecture-resources a.lecture-recording{color:#176344;background:#e8f5ed;border-color:#b8dcc6;border-radius:6px;text-decoration:none;box-shadow:0 1px 2px #1763440d}
+.lecture-resources a.lecture-recording{color:#176344;background:#e8f5ed;border-color:#b8dcc6}
 .lecture-resources a.lecture-recording:hover{color:#104b33;background:#d6eddf;border-color:#8fc5a5}
 
 /* Course policies and staff: readable text and navigation at every width. */
