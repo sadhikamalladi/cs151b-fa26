@@ -2,6 +2,15 @@
 
 #schedule .table-scroll{overflow:visible;max-height:none}
 
+/* Assignment and primer resources share the same typography and blue links. */
+#schedule .assignment-group{margin-bottom:12px}
+#schedule .assignment-group strong{color:#183044;font-size:.95rem}
+#schedule .assignment-links{font-size:.875rem;margin-top:2px;line-height:1.65}
+#schedule .assignment-links a{color:var(--blue)}
+#schedule .assignment-note{font-size:.8rem;color:var(--muted);margin-left:5px}
+#schedule .assignment-dates{font-size:.825rem;color:var(--muted);margin:4px 0 10px}
+#schedule .assignment-dates strong{color:#183044}
+
 .goal:nth-child(4){border-color:#986323}.g4{color:#80531b;background:#fff0dc}
 
 @media(max-width:480px){.goal-grid{grid-template-columns:1fr}}
