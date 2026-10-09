@@ -109,6 +109,8 @@ nav a[aria-current="page"]{color:var(--navy);text-decoration:underline;text-deco
 .lecture-resources a.lecture-supplement{color:#9a3e0b;background:#fff3e5;border-color:#efbd8c}
 .lecture-resources a.lecture-supplement:hover{color:#7c2d08;background:#ffe5c7;border-color:#dc9b5c}
 .lecture-resources a.lecture-supplement:focus-visible{outline:2px solid #b45309;outline-offset:3px}
+.lecture-resources-two-rows{display:grid;grid-template-columns:repeat(2,minmax(0,max-content));justify-items:start}
+.lecture-resources-two-rows a.lecture-supplement{grid-column:1 / -1}
 
 /* Course policies and staff: readable text and navigation at every width. */
 .heading{flex-wrap:wrap}
