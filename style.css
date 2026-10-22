@@ -156,3 +156,40 @@ nav{flex-wrap:wrap}
 @media(max-width:850px){.staff-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:540px){.staff-grid{grid-template-columns:1fr}.staff-profile{display:grid;grid-template-columns:100px minmax(0,1fr);align-items:start}.staff-photo{width:100px;height:100px}.staff-photo-placeholder{font-size:.75rem;border-bottom:0}.staff-profile-details{padding:12px 14px}.staff-profile-details h3{font-size:1rem}.staff-profile-details p{font-size:.875rem}}
 @media print{.office-hours-scroll{overflow:visible}.office-hours-table{min-width:0}.staff-profile{break-inside:avoid}}
+
+/* Project dates remain readable without the schedule table's fixed columns. */
+.project-dates{display:grid;grid-template-columns:145px minmax(0,1fr);gap:12px 20px;margin:0}
+.project-dates dt{font-weight:650;color:var(--navy)}
+.project-dates dd{margin:0}
+.project-guide .mission dt{font-weight:650;color:var(--navy)}
+@media(max-width:600px){.project-dates{grid-template-columns:1fr;gap:4px}.project-dates dd{margin-bottom:14px}}
+
+/* Compact project mission comparison. */
+.mission-comparison-scroll{overflow-x:auto;margin:18px 0 20px;border:1px solid var(--line);border-radius:4px}
+.mission-comparison-scroll:focus-visible{outline:3px solid #dca400;outline-offset:4px}
+.mission-comparison{display:table;min-width:700px;width:100%;table-layout:fixed;font-size:.875rem;line-height:1.5}
+.mission-comparison thead{display:table-header-group}
+.mission-comparison tbody{display:table-row-group}
+.mission-comparison tr{display:table-row;border:0}
+.mission-comparison th,.mission-comparison td{display:table-cell;padding:12px;line-height:1.5;overflow-wrap:break-word}
+.mission-comparison thead th{position:static;font-size:.8rem}
+.mission-comparison thead th:first-child{width:18%}
+.mission-comparison thead th:nth-child(2){width:27%}
+.mission-comparison thead th:nth-child(3){width:27%}
+.mission-comparison thead th:last-child{width:28%}
+.mission-comparison td:before{content:none}
+@media print{.mission-comparison-scroll{overflow:visible}.mission-comparison{min-width:0}}
+
+/* Give full mission requirements room while keeping table spacing compact. */
+.project-guide #missions{width:min(1120px,calc(100vw - 48px));margin-left:50%;transform:translateX(-50%)}
+.project-guide #missions>p{max-width:none}
+.mission-comparison{font-size:.9rem;line-height:1.5;min-width:850px}
+.mission-comparison th,.mission-comparison td{padding:11px 14px;line-height:1.5;overflow-wrap:normal;word-break:normal;hyphens:none}
+.mission-comparison thead th{font-size:.85rem}
+.mission-comparison thead th:first-child{width:16%}
+.mission-comparison thead th:nth-child(2){width:32%}
+.mission-comparison thead th:nth-child(3){width:25%}
+.mission-comparison thead th:last-child{width:27%}
+.mission-comparison code{font-size:.85em}
+@media(max-width:600px){.project-guide #missions{width:100%;margin-left:0;transform:none}}
+@media print{.project-guide #missions{width:100%;margin-left:0;transform:none}.mission-comparison{min-width:0}}
