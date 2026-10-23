@@ -37,7 +37,7 @@ hf_logging.set_verbosity_error()  # hide harmless warnings
 BASE_MODEL = "roneneldan/TinyStories-33M"  # pretrained model every team starts from
 DATASET_NAME = "roneneldan/TinyStories"
 SEED = 151  # fixed seed so runs are repeatable
-MAX_LENGTH = 256  # tokens per story used in training and evaluation; longer stories are cut off
+MAX_LENGTH = 384  # tokens per story used in training and evaluation; longer stories are cut off
 
 POOL_SIZE = 10_000  # stories loaded from the TinyStories train split
 VAL_SIZE = 1_000  # stories loaded from the public validation split
@@ -48,10 +48,11 @@ M1_MAX_EXAMPLES = 100  # M1: maximum training examples you may select
 M2_TIME_BUDGET_S = 20 * 60  # M2: training time budget on a Colab T4 GPU (20 minutes)
 
 M3_N_STEPS = 200  # M3: optimizer steps on the original task
-M3_M_STEPS = 200  # [TBD] M3: optimizer steps on the new task (test it with 100, 200, 500 and pick the smallest m where original-task perplexity rises noticeably)
+M3_M_STEPS = 500  # M3: optimizer steps on the new task
 M3_NEW_TASK_DATASET = "roneneldan/TinyStoriesInstruct"  # M3 new task: stories with Summary/Words/Features headers
 M3_NEW_TRAIN_SIZE = 5_000  # new-task entries for training
 M3_NEW_VAL_SIZE = 500  # new-task entries for validation
+END_OF_TEXT = "<|endoftext|>"  # M3: marker between stories in the new-task dataset
 
 M4_NUM_WORDS = 3  # M4: required words per prompt
 M4_STEER_TIME_LIMIT_S = 10  # M4: max seconds for one steer() call (revisit this based on staff bencmark results)
@@ -120,9 +121,9 @@ def load_new_task(train_size: int = M3_NEW_TRAIN_SIZE, val_size: int = M3_NEW_VA
     """M3: load the new task, TinyStories in an instruction format.
 
     Each entry is a story with header lines such as
-        Summary: ...
-        Words: quit, oak, gloomy
         Features: Dialogue
+        Words: quit, oak, gloomy
+        Summary: ...
         Story: ...
     The original task is the plain stories from `load_tinystories()`.
 
@@ -130,15 +131,33 @@ def load_new_task(train_size: int = M3_NEW_TRAIN_SIZE, val_size: int = M3_NEW_VA
         new_train: new-task entries for training.
         new_val:   new-task entries for validation.
     """
-    from datasets import load_dataset
-
-    # Same approach as load_tinystories(): stream the dataset and keep the first entries.
-    train_stream = load_dataset(M3_NEW_TASK_DATASET, split="train", streaming=True)
-    new_train = [ex["text"].strip() for ex in train_stream.take(train_size) if ex["text"].strip()]
-    val_stream = load_dataset(M3_NEW_TASK_DATASET, split="validation", streaming=True)
-    new_val = [ex["text"].strip() for ex in val_stream.take(val_size) if ex["text"].strip()]
+    new_train = _read_instruct_entries("train", train_size)
+    new_val = _read_instruct_entries("validation", val_size)
     print(f"Loaded {len(new_train):,} new-task training entries and {len(new_val):,} validation entries.")
     return new_train, new_val
+
+
+def _read_instruct_entries(split: str, n: int) -> list[str]:
+    """Read the first `n` entries of a TinyStoriesInstruct split.
+
+    The dataset stores one line per row, with a row containing only END_OF_TEXT
+    between entries, so lines are collected until each marker and joined.
+    """
+    from datasets import load_dataset
+
+    rows = load_dataset(M3_NEW_TASK_DATASET, split=split, streaming=True)
+    entries, lines = [], []
+    for row in rows:
+        line = row["text"].strip()
+        if line == END_OF_TEXT:  # end of one entry
+            if lines:
+                entries.append("\n".join(lines))
+                lines = []
+                if len(entries) == n:
+                    break
+        elif line:  # skip blank rows
+            lines.append(line)
+    return entries
 
 
 
@@ -200,7 +219,7 @@ def _tokenize(tokenizer, texts: list[str], max_length: int, device: str) -> dict
 
 
 def finetune(model, tokenizer, texts: list[str], *, epochs: int = 1, max_steps: int | None = None,
-             time_budget_s: float | None = None, lr: float = 1e-4, batch_size: int = 8,
+             time_budget_s: float | None = None, lr: float = 1e-5, batch_size: int = 8,
              max_length: int = MAX_LENGTH, seed: int = SEED, log_every: int = 50) -> dict:
     """fine-tuning loop (AdamW, shuffled mini-batches). Trains `model` in place.
 
