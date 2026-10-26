@@ -45,6 +45,7 @@ VAL_SIZE = 1_000  # stories loaded from the public validation split
 # Mission constraints
 M1_MAX_EXAMPLES = 100  # M1: maximum training examples you may select
 
+M2_POOL_SIZE = 50_000 # M2: stories loaded from the TinyStories train split
 M2_TIME_BUDGET_S = 20 * 60  # M2: training time budget on a Colab T4 GPU (20 minutes)
 
 M3_N_STEPS = 200  # M3: optimizer steps on the original task
