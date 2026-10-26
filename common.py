@@ -59,7 +59,7 @@ M4_NUM_WORDS = 3  # M4: required words per prompt
 M4_STEER_TIME_LIMIT_S = 10  # M4: max seconds for one steer() call (revisit this based on staff bencmark results)
 
 # Submission limits
-BENCHMARK_TIME_LIMIT_S = 5 * 60  # max runtime of your team benchmark on one model (set at 5 minutes can be reduced to 2 minutes if number teams per mission is large)
+BENCHMARK_TIME_LIMIT_S = 5 * 60  # max runtime of your team benchmark on one model (set at 5 minutes)
 SUBMISSION_DIR = "submission"  # folder that gets zipped and uploaded
 
 
