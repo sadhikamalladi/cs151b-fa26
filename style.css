@@ -193,3 +193,40 @@ nav{flex-wrap:wrap}
 .mission-comparison code{font-size:.85em}
 @media(max-width:600px){.project-guide #missions{width:100%;margin-left:0;transform:none}}
 @media print{.project-guide #missions{width:100%;margin-left:0;transform:none}.mission-comparison{min-width:0}}
+
+/* Project page: wider reading area and compact, responsive mission summaries. */
+.project-guide{width:min(1240px,calc(100% - 64px));max-width:1240px;padding-bottom:40px;line-height:1.55}
+.project-guide .page-intro{padding:26px 0 8px}
+.project-guide .page-intro h2{margin-bottom:10px}
+.project-guide .page-intro p{margin-bottom:12px}
+.project-guide p{max-width:none;margin-bottom:14px;line-height:1.6}
+.project-guide .page-nav{padding:10px 0;gap:6px 24px;line-height:1.5}
+.project-guide section{margin-top:26px;padding-top:22px}
+.project-guide h2{margin-bottom:14px}
+.project-guide h3{margin-bottom:10px}
+.project-guide ol,.project-guide ul{max-width:none;margin:12px 0 16px;padding-left:24px}
+.project-guide li{margin-bottom:8px;padding-left:2px;line-height:1.6}
+.project-guide #missions{width:auto;margin-left:0;transform:none}
+.project-guide .mission-summaries{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:36px;row-gap:22px;margin:20px 0}
+.project-guide .mission-summary{min-width:0;padding:16px 0 0;border-top:2px solid var(--line)}
+.project-guide .mission-summary h3{font-size:1.2rem;line-height:1.35;margin-bottom:14px}
+.mission-summary h3 span{display:inline-block;color:var(--blue);font-size:.85rem;margin-right:8px;vertical-align:baseline}
+.mission-summary dl{display:grid;grid-template-columns:94px minmax(0,1fr);gap:9px 14px;margin:0}
+.mission-summary dt{font-size:.875rem;font-weight:650;color:var(--muted);padding-top:2px}
+.mission-summary dd{margin:0;line-height:1.55;overflow-wrap:anywhere}
+.mission-summary code{font-size:.95em}
+.project-guide .mission-submissions{font-size:.95rem;margin:18px 0 0}
+.project-guide .project-dates{gap:8px 20px}
+@media(max-width:800px){
+ .project-guide{width:calc(100% - 40px)}
+ .project-guide .mission-summaries{grid-template-columns:1fr;gap:18px;margin:16px 0}
+ .project-guide .mission-summary{padding-top:14px}
+}
+@media(max-width:480px){
+ .project-guide{width:calc(100% - 32px)}
+ .project-guide .page-intro h2{font-size:1.75rem}
+ .mission-summary dl{grid-template-columns:78px minmax(0,1fr);gap:8px 10px}
+ .mission-summary dt{font-size:.8rem}
+ .project-guide .page-nav{gap:5px 18px;font-size:.9rem}
+}
+@media print{.project-guide{width:100%;max-width:none}.mission-summary{break-inside:avoid}.project-guide .mission-summaries{grid-template-columns:1fr 1fr}}
