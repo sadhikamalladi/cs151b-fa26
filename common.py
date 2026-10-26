@@ -57,6 +57,8 @@ END_OF_TEXT = "<|endoftext|>"  # M3: marker between stories in the new-task data
 
 M4_NUM_WORDS = 3  # M4: required words per prompt
 M4_STEER_TIME_LIMIT_S = 10  # M4: max seconds for one steer() call (revisit this based on staff bencmark results)
+M4_MIN_STORY_WORDS = 30  # M4: a story shorter than this does not count
+M4_MAX_STORY_PPL = 10.0  # M4: a story with higher perplexity than this does not count (reads poorly)
 
 # Submission limits
 BENCHMARK_TIME_LIMIT_S = 5 * 60  # max runtime of your team benchmark on one model (set at 5 minutes)
@@ -363,20 +365,38 @@ def uses_all_words(story: str, words: Iterable[str]) -> bool:
     return all(re.search(rf"\b{re.escape(w.lower())}(s|es)?\b", story.lower()) for w in words)
 
 
+def _hook_count(model) -> int:
+    """Number of forward hooks currently attached anywhere in the model."""
+    return sum(len(m._forward_hooks) + len(m._forward_pre_hooks) for m in model.modules())
+
+
+def story_counts(model, tokenizer, story: str, words: Iterable[str]) -> bool:
+    """M4: True if `story` uses all `words`, is long enough, and reads fluently.
+
+    A story counts only if it has at least M4_MIN_STORY_WORDS words and its
+    perplexity under the base model is at most M4_MAX_STORY_PPL. This stops
+    short or garbled stories (for example, a list of the required words) from scoring.
+    """
+    if len(story.split()) < M4_MIN_STORY_WORDS or not uses_all_words(story, words):
+        return False
+    return compute_perplexity(model, tokenizer, [story]) <= M4_MAX_STORY_PPL
+
+
 def evaluate_steering(steer_fn: Callable, model, tokenizer, prompts: list[dict]) -> dict:
     """M4: run `steer_fn` on each prompt and score the stories.
 
     Only the text `steer_fn` returns is checked, so required words placed in the
-    prompt do not count. Fluency is the perplexity of the returned stories
-    under the unchanged base model (lower is more fluent).
-    Note: repetitive text can also score low.
+    prompt do not count. A story counts only if it uses all required words, has
+    at least M4_MIN_STORY_WORDS words, and has perplexity at most
+    M4_MAX_STORY_PPL under the unchanged base model (see story_counts).
 
     Returns:
-        word_rate:   share of stories that use all required words (higher is better)
-        fluency_ppl: perplexity of the stories under the base model (lower is better)
+        word_rate:   share of prompts whose story counts (higher is better)
+        fluency_ppl: perplexity of all returned stories under the base model (lower is better)
         stories:     the generated stories, for inspection
     """
     before = weights_fingerprint(model)  # record the weights to check they are unchanged later
+    hooks_before = _hook_count(model)
     stories, hits = [], 0
     for item in prompts:
         start = time.time()
@@ -384,8 +404,10 @@ def evaluate_steering(steer_fn: Callable, model, tokenizer, prompts: list[dict])
         seconds = time.time() - start
         if seconds > M4_STEER_TIME_LIMIT_S:
             raise RuntimeError(f"steer() took {seconds:.1f}s on one prompt; the limit is {M4_STEER_TIME_LIMIT_S}s.")
+        if _hook_count(model) != hooks_before:
+            raise RuntimeError("steer() left a hook attached to the model. Remove hooks before steer() returns.")
         stories.append(story)
-        hits += uses_all_words(story, item["words"])  # True counts as 1
+        hits += story_counts(model, tokenizer, story, item["words"])  # True counts as 1
     if weights_fingerprint(model) != before:
         raise RuntimeError("steer() changed the model's weights, which is not allowed in M4.")
     nonempty = [s for s in stories if s.strip()]
@@ -436,7 +458,7 @@ def check_team_benchmark(benchmark_fn: Callable, model, tokenizer, steer_fn: Cal
     M4 benchmarks evaluate a steering function, so pass `steer_fn` and they are
     called as benchmark_fn(steer_fn, model, tokenizer).
 
-    Requirements: **shoudl this is gradescope**
+    Requirements (staff check submissions against the same rules):
       - returns a single finite number (higher means better)
       - returns the same number on both runs (seed any randomness)
       - finishes within `time_limit_s` seconds
