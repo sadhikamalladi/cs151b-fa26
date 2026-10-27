@@ -2,7 +2,7 @@
 <main id="content" class="wrap document project-guide">
 <div class="page-intro"><p class="eyebrow">Course project · Fall 2026</p><h2>Project Milestones &amp; Deliverables</h2>
 <p>Choose a mission and design an algorithm and benchmark for it.</p></div>
-<nav class="page-nav" aria-label="On this page"><a href="#missions">Missions</a><a href="#overview">How it works</a><a href="#dates">Key dates</a><a href="#teams">Teams</a><a href="#ai-policy">AI use policy</a></nav>
+<nav class="page-nav" aria-label="On this page"><a href="#missions">Missions</a><a href="#overview">How it works</a><a href="#dates">Key dates</a><a href="#teams">Teams</a><a href="#starter-code">Starter code</a><a href="#ai-policy">AI use policy</a></nav>
 <section id="missions" aria-labelledby="missions-heading">
 <h2 id="missions-heading">Choose one mission</h2>
 <p>All four missions start from <strong>TinyStories-33M</strong>, a pretrained story-writing model. Use the public validation data to develop your method. Final staff evaluation uses held-out data that is not released.</p>
@@ -64,6 +64,21 @@
 <li><strong>Group contract (optional).</strong> We recommend a contract describing individual responsibilities, meeting frequency, and group deadlines. If you upload a signed contract with the sign-up form, staff will enforce it to help resolve conflicts. Without a contract, staff cannot mediate group disputes, and the group is responsible for ensuring project development goes smoothly.</li>
 <li><strong>Team changes.</strong> If a teammate drops the course or can no longer participate, notify staff with a private Piazza post. We will help you join another team.</li>
 <li><strong>Team issues.</strong> Report conflicts through a private Piazza post to instructors rather than in office hours, so staff have a written record.</li></ul></section>
+<section id="starter-code" aria-labelledby="starter-code-heading">
+<h2 id="starter-code-heading">Starter code</h2>
+<p>Each mission has a Colab notebook. All four use shared helpers from
+<a href="https://drive.google.com/file/d/1Pu3Q-ywtZchcgyyfidXBLPrpxWb64Xfs/view?usp=drive_link"><code>common.py</code></a> (data loading, perplexity scoring, model save/load).
+Do not change function signatures. Staff run your submission through them without modification.</p>
+<ul>
+<li><strong>M1 Data efficiency:</strong> <a href="https://drive.google.com/file/d/19w-R6reeNSxdrUXyl_tj2LXJEPPcX8xb/view?usp=drive_link">notebook</a></li>
+<li><strong>M2 Fine-tuning efficiency:</strong> <a href="https://drive.google.com/file/d/1ymI3kYqhoIGl9OOxjoYhqXHA6jq2uWut/view?usp=drive_link">notebook</a></li>
+<li><strong>M3 Retention:</strong> <a href="https://drive.google.com/file/d/1IOORL84FfslSnivAfY4syDPIMD__-RDf/view?usp=drive_link">notebook</a></li>
+<li><strong>M4 Steerability:</strong> <a href="https://drive.google.com/file/d/1vF5-BCupFYXHdD9RGclwJALDWVqnI18N/view?usp=drive_link">notebook</a></li>
+</ul>
+<p>Download the notebook for your mission and <code>common.py</code>.
+When you run in Colab, upload <code>common.py</code> to the Colab workspace (the Files panel on the left)
+in the same session, or the notebook's imports will fail. Re-upload it if the runtime resets.</p>
+</section>
 <section id="ai-policy" aria-labelledby="ai-policy-heading">
 <h2 id="ai-policy-heading">AI use policy</h2>
 <p>You may use AI tools to develop ideas, write and debug code, and create benchmarks. Benchmark data may be handwritten, selected from permitted datasets, AI-generated, or a combination. Follow the project’s data restrictions and keep benchmark data separate from training data. Your benchmark must be self-contained, with data and a scoring method that staff can run.</p>
