@@ -9,7 +9,7 @@ Contents
     - Data                TinyStories loading and splitting
     - Model               loading and saving
     - Training            a simple fine-tuning loop you may reuse or replace
-    - Evaluation          perplexity, generation, steering helpers
+    - Evaluation          perplexity, generation
     - Submission          loading your code files, checking your benchmark, packaging
 """
 
@@ -20,10 +20,9 @@ import importlib.util
 import math
 import os
 import random
-import re
 import shutil
 import time
-from typing import Callable, Iterable
+from typing import Callable
 
 import numpy as np
 import torch
@@ -54,11 +53,6 @@ M3_NEW_TASK_DATASET = "roneneldan/TinyStoriesInstruct"  # M3 new task: stories w
 M3_NEW_TRAIN_SIZE = 5_000  # new-task entries for training
 M3_NEW_VAL_SIZE = 500  # new-task entries for validation
 END_OF_TEXT = "<|endoftext|>"  # M3: marker between stories in the new-task dataset
-
-M4_NUM_WORDS = 3  # M4: required words per prompt
-M4_STEER_TIME_LIMIT_S = 10  # M4: max seconds for one steer() call (revisit this based on staff bencmark results)
-M4_MIN_STORY_WORDS = 30  # M4: a story shorter than this does not count
-M4_MAX_STORY_PPL = 10.0  # M4: a story with higher perplexity than this does not count (reads poorly)
 
 # Submission limits
 BENCHMARK_TIME_LIMIT_S = 5 * 60  # max runtime of your team benchmark on one model (set at 5 minutes)
@@ -329,92 +323,6 @@ def generate_story(model, tokenizer, prompt: str, max_new_tokens: int = 150, do_
     return tokenizer.decode(new_tokens, skip_special_tokens=True)
 
 
-# M4: steering helpers
-# Simple, concrete nouns typical of children's stories, chosen by hand.
-M4_WORD_LIST = [
-    "apple", "ball", "bear", "bird", "boat", "box", "bread", "bunny", "cake", "car", "cat", "cloud",
-    "cookie", "cow", "dog", "doll", "door", "duck", "egg", "fish", "flower", "frog", "garden", "gift",
-    "hat", "horse", "house", "jar", "kite", "lamp", "leaf", "lion", "milk", "monkey", "moon", "mouse",
-    "park", "pencil", "pie", "pig", "rain", "river", "rock", "rope", "shoe", "sky", "snow", "sock",
-    "star", "stick", "sun", "swing", "train", "tree", "truck", "umbrella", "water", "wind", "window", "worm",
-]
-
-# Story openings used as prompts
-M4_PROMPT_STARTS = [
-    "Once upon a time,", "One day,", "There was a little", "Lily and Ben", "In a small town,",
-    "Tom was", "Every morning,", "Sam had a", "Mia wanted to", "Long ago,",
-]
-
-
-def make_word_prompts(n: int = 100, num_words: int = M4_NUM_WORDS, seed: int = SEED) -> list[dict]:
-    """M4: build a public practice set of prompts, each with `num_words` required words.
-
-    Example item: {"prompt": "One day,", "words": ["kite", "river", "cake"]}
-    The staff benchmark uses a separate set that is not released.
-    """
-    rng = random.Random(seed)
-    return [{"prompt": rng.choice(M4_PROMPT_STARTS), "words": rng.sample(M4_WORD_LIST, num_words)}
-            for _ in range(n)]
-
-
-def uses_all_words(story: str, words: Iterable[str]) -> bool:
-    """True if every word appears in `story` (case-insensitive; simple plurals count).
-
-    Matches whole words only: "dog" and "dogs" count, "doghouse" does not.
-    """
-    return all(re.search(rf"\b{re.escape(w.lower())}(s|es)?\b", story.lower()) for w in words)
-
-
-def _hook_count(model) -> int:
-    """Number of forward hooks currently attached anywhere in the model."""
-    return sum(len(m._forward_hooks) + len(m._forward_pre_hooks) for m in model.modules())
-
-
-def story_counts(model, tokenizer, story: str, words: Iterable[str]) -> bool:
-    """M4: True if `story` uses all `words`, is long enough, and reads fluently.
-
-    A story counts only if it has at least M4_MIN_STORY_WORDS words and its
-    perplexity under the base model is at most M4_MAX_STORY_PPL. This stops
-    short or garbled stories (for example, a list of the required words) from scoring.
-    """
-    if len(story.split()) < M4_MIN_STORY_WORDS or not uses_all_words(story, words):
-        return False
-    return compute_perplexity(model, tokenizer, [story]) <= M4_MAX_STORY_PPL
-
-
-def evaluate_steering(steer_fn: Callable, model, tokenizer, prompts: list[dict]) -> dict:
-    """M4: run `steer_fn` on each prompt and score the stories.
-
-    Only the text `steer_fn` returns is checked, so required words placed in the
-    prompt do not count. A story counts only if it uses all required words, has
-    at least M4_MIN_STORY_WORDS words, and has perplexity at most
-    M4_MAX_STORY_PPL under the unchanged base model (see story_counts).
-
-    Returns:
-        word_rate:   share of prompts whose story counts (higher is better)
-        fluency_ppl: perplexity of all returned stories under the base model (lower is better)
-        stories:     the generated stories, for inspection
-    """
-    before = weights_fingerprint(model)  # record the weights to check they are unchanged later
-    hooks_before = _hook_count(model)
-    stories, hits = [], 0
-    for item in prompts:
-        start = time.time()
-        story = steer_fn(model, tokenizer, item["prompt"], item["words"])
-        seconds = time.time() - start
-        if seconds > M4_STEER_TIME_LIMIT_S:
-            raise RuntimeError(f"steer() took {seconds:.1f}s on one prompt; the limit is {M4_STEER_TIME_LIMIT_S}s.")
-        if _hook_count(model) != hooks_before:
-            raise RuntimeError("steer() left a hook attached to the model. Remove hooks before steer() returns.")
-        stories.append(story)
-        hits += story_counts(model, tokenizer, story, item["words"])  # True counts as 1
-    if weights_fingerprint(model) != before:
-        raise RuntimeError("steer() changed the model's weights, which is not allowed in M4.")
-    nonempty = [s for s in stories if s.strip()]
-    fluency = compute_perplexity(model, tokenizer, nonempty) if nonempty else float("inf")
-    return {"word_rate": hits / len(prompts), "fluency_ppl": fluency, "stories": stories}
-
-
 # Submission
 def load_function(path: str, name: str) -> Callable:
     """Load function `name` from the Python file at `path`.
@@ -450,13 +358,11 @@ def _to_float(value) -> float:
     return float(value)
 
 
-def check_team_benchmark(benchmark_fn: Callable, model, tokenizer, steer_fn: Callable | None = None,
+def check_team_benchmark(benchmark_fn: Callable, model, tokenizer,
                          time_limit_s: float = BENCHMARK_TIME_LIMIT_S) -> float:
     """Run your team benchmark twice and check it meets the requirements.
 
     M1-M3 benchmarks are called as benchmark_fn(model, tokenizer).
-    M4 benchmarks evaluate a steering function, so pass `steer_fn` and they are
-    called as benchmark_fn(steer_fn, model, tokenizer).
 
     Requirements (staff check submissions against the same rules):
       - returns a single finite number (higher means better)
@@ -470,10 +376,7 @@ def check_team_benchmark(benchmark_fn: Callable, model, tokenizer, steer_fn: Cal
     for run in range(2):
         set_seed(SEED)
         start = time.time()
-        if steer_fn is not None:
-            score = _to_float(benchmark_fn(steer_fn, model, tokenizer))
-        else:
-            score = _to_float(benchmark_fn(model, tokenizer))
+        score = _to_float(benchmark_fn(model, tokenizer))
         times.append(time.time() - start)
         if not math.isfinite(score):  # rejects nan and infinity
             raise BenchmarkCheckError(f"Benchmark returned {score}; it must be a finite number.")
