@@ -5,7 +5,7 @@
 <nav class="page-nav" aria-label="On this page"><a href="#missions">Missions</a><a href="#overview">How it works</a><a href="#dates">Key dates</a><a href="#teams">Teams</a><a href="#starter-code">Starter code</a><a href="#ai-policy">AI use policy</a></nav>
 <section id="missions" aria-labelledby="missions-heading">
 <h2 id="missions-heading">Choose one mission</h2>
-<p>All four missions start from <strong>TinyStories-33M</strong>, a pretrained story-writing model. Use the public validation data to develop your method. Final staff evaluation uses held-out data that is not released.</p>
+<p>All three missions start from <strong>TinyStories-33M</strong>, a pretrained story-writing model. Use the public validation data to develop your method. Final staff evaluation uses held-out data that is not released.</p>
 <div class="mission-summaries">
 <article class="mission-summary" aria-labelledby="mission-1-heading">
 <h3 id="mission-1-heading"><span>M1</span> Data efficiency</h3>
@@ -31,16 +31,16 @@
 <dt>Score</dt><dd>Original-task perplexity after both phases. Lower is better. New-task perplexity must also be <strong>4.2 or lower</strong>.</dd>
 </dl>
 </article>
-<article class="mission-summary" aria-labelledby="mission-4-heading">
+<!-- <article class="mission-summary" aria-labelledby="mission-4-heading">
 <h3 id="mission-4-heading"><span>M4</span> Steerability</h3>
 <dl>
 <dt>Constraint</dt><dd>A fixed base model with <strong>no weight updates</strong>. Each steering call must take <strong>10 seconds or less</strong>.</dd>
 <dt>You design</dt><dd>A <code>steer</code> function that generates a story with three required words. Your code may not write or edit the story.</dd>
 <dt>Score</dt><dd>Share of held-out prompts whose story contains all three words and reads fluently.</dd>
 </dl>
-</article>
+</article> -->
 </div>
-<p class="mission-submissions"><strong>What you submit:</strong> M1–M3 require a fine-tuning algorithm and the saved trained model. M4 requires a steering function. Every team also designs and submits a benchmark. The starter code supplies the interfaces, data, and baseline metric.</p>
+<p class="mission-submissions"><strong>What you submit:</strong> M1–M3 require a fine-tuning algorithm and the saved trained model. Every team also designs and submits a benchmark. The starter code supplies the interfaces, data, and baseline metric.</p>
 </section>
 <section id="overview"><h2>How the project works</h2><ol><li><strong>Individual write-up:</strong> each student proposes an algorithm and benchmark design for the team’s mission.</li><li><strong>Group submission:</strong> discuss the proposals, select one algorithm and one benchmark, and implement them using the starter code.</li><li><strong>Group presentation:</strong> present your approach and how it performed on different benchmarks.</li></ol><p>After Milestone 2, staff will run every team’s algorithm against every other team’s benchmark in the same mission, plus a held-out staff benchmark. Results will be posted on a leaderboard. The top-ranked team in each mission earns bonus points.</p>
 <p>The project is worth 30% of your course grade, divided equally across the three milestones:</p>
@@ -66,7 +66,7 @@
 <li><strong>Team issues.</strong> Report conflicts through a private Piazza post to instructors rather than in office hours, so staff have a written record.</li></ul></section>
 <section id="starter-code" aria-labelledby="starter-code-heading">
 <h2 id="starter-code-heading">Starter code</h2>
-<p>Each mission has a Colab notebook. All four use shared helpers from
+<p>Each mission has a Colab notebook. All three use shared helpers from
 <a href="https://drive.google.com/file/d/1Pu3Q-ywtZchcgyyfidXBLPrpxWb64Xfs/view?usp=drive_link"><code>common.py</code></a> (data loading, perplexity scoring, model save/load).
 Do not change function signatures. Staff run your submission through them without modification.</p>
 <ul>
