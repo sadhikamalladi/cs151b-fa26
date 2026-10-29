@@ -414,5 +414,5 @@ def package_submission(mission: str, folder: str = SUBMISSION_DIR) -> str:
     if not os.path.isdir(folder):
         raise FileNotFoundError(f"{folder}/ not found.")
     archive = shutil.make_archive(f"{mission}_submission", "zip", root_dir=".", base_dir=folder)
-    print(f"Created {archive} ({os.path.getsize(archive) / 1e6:.0f} MB). Upload this file to Gradescope.")
+    print(f"Created {archive} ({os.path.getsize(archive) / 1e6:.0f} MB).")
     return archive
