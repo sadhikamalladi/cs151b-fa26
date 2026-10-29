@@ -5,22 +5,23 @@
 <nav class="page-nav" aria-label="On this page"><a href="#missions">Missions</a><a href="#overview">How it works</a><a href="#dates">Key dates</a><a href="#teams">Teams</a><a href="#starter-code">Starter code</a><a href="#ai-policy">AI use policy</a></nav>
 <section id="missions" aria-labelledby="missions-heading">
 <h2 id="missions-heading">Choose one mission</h2>
-<p>All three missions start from <strong>TinyStories-33M</strong>, a pretrained story-writing model. Use the public validation data to develop your method. Final staff evaluation uses held-out data that is not released.</p>
+<p>All three missions start from <strong>TinyStories-33M</strong>, a pretrained story-writing model. M1 and M2 use <strong>TinyStoriesInstruct</strong>, where each entry is a story with instruction lines such as <code>Summary:</code> and <code>Words:</code>; scoring uses the full entry, including these lines. Use the public validation data to develop your method. Final staff evaluation uses held-out data that is not released.</p>
+<!-- <p>All three missions start from <strong>TinyStories-33M</strong>, a pretrained story-writing model. Use the public validation data to develop your method. Final staff evaluation uses held-out data that is not released.</p> -->
 <div class="mission-summaries">
 <article class="mission-summary" aria-labelledby="mission-1-heading">
 <h3 id="mission-1-heading"><span>M1</span> Data efficiency</h3>
 <dl>
-<dt>Constraint</dt><dd>Train on at most <strong>100 stories</strong> selected from the supplied pool of <strong>10,000 TinyStories</strong>.</dd>
-<dt>You design</dt><dd>Which stories to select and how to train on them.</dd>
-<dt>Score</dt><dd>Perplexity on held-out stories. Lower is better.</dd>
+<dt>Constraint</dt><dd>Train on at most <strong>100 entries</strong> selected from the supplied pool of <strong>10,000 TinyStoriesInstruct entries</strong>.</dd>
+<dt>You design</dt><dd>Which entries to select and how to train on them.</dd>
+<dt>Score</dt><dd>Perplexity on held-out TinyStoriesInstruct entries. Lower is better.</dd>
 </dl>
 </article>
 <article class="mission-summary" aria-labelledby="mission-2-heading">
 <h3 id="mission-2-heading"><span>M2</span> Fine-tuning efficiency</h3>
 <dl>
-<dt>Constraint</dt><dd>A fixed pool of <strong>50,000 TinyStories</strong> and <strong>20 minutes of training on a Colab T4 GPU</strong>.</dd>
+<dt>Constraint</dt><dd>A fixed pool of <strong>50,000 TinyStoriesInstruct entries</strong> and <strong>20 minutes of training on a Colab T4 GPU</strong>.</dd>
 <dt>You design</dt><dd>How to fine-tune within the training budget.</dd>
-<dt>Score</dt><dd>Perplexity on held-out stories. Lower is better.</dd>
+<dt>Score</dt><dd>Perplexity on held-out TinyStoriesInstruct entries. Lower is better.</dd>
 </dl>
 </article>
 <article class="mission-summary" aria-labelledby="mission-3-heading">
@@ -40,7 +41,7 @@
 </dl>
 </article> -->
 </div>
-<p class="mission-submissions"><strong>What you submit:</strong> M1–M3 require a fine-tuning algorithm and the saved trained model. Every team also designs and submits a benchmark. The starter code supplies the interfaces, data, and baseline metric.</p>
+<p class="mission-submissions"><strong>What you submit:</strong> M1–M3 require a fine-tuning algorithm and the saved trained model. Every team also designs and submits a benchmark. The starter code supplies the interfaces, data, and baseline metric. Upload the zip created by the starter code (which includes your model) to Google Drive and share the link with course staff; submit your code and benchmark on Gradescope.</p>
 </section>
 <li><strong>Individual write-up:</strong> each student proposes an algorithm and benchmark design for the team's mission. <a href="https://drive.google.com/file/d/1JZV6Q0Tr8H4Of0lEIPE0CCofLe_KVZm7/view?usp=drive_link">Read the individual project guidelines (PDF)</a>.</li><li><strong>Group submission:</strong> discuss the proposals, select one algorithm and one benchmark, and implement them using the starter code.</li><li><strong>Group presentation:</strong> present your approach and how it performed on different benchmarks.</li></ol><p>After Milestone 2, staff will run every team’s algorithm against every other team’s benchmark in the same mission, plus a held-out staff benchmark. Results will be posted on a leaderboard. The top-ranked team in each mission earns bonus points.</p>
 <p>The project is worth 30% of your course grade, divided equally across the three milestones:</p>
