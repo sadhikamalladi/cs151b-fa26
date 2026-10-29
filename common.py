@@ -38,13 +38,13 @@ DATASET_NAME = "roneneldan/TinyStories"
 SEED = 151  # fixed seed so runs are repeatable
 MAX_LENGTH = 384  # tokens per story used in training and evaluation; longer stories are cut off
 
-POOL_SIZE = 10_000  # stories loaded from the TinyStories train split
+POOL_SIZE = 10_000  # training pool size (M1 Instruct pool; M3 phase-1 stories)
 VAL_SIZE = 1_000  # stories loaded from the public validation split
 
 # Mission constraints
 M1_MAX_EXAMPLES = 100  # M1: maximum training examples you may select
 
-M2_POOL_SIZE = 50_000 # M2: stories loaded from the TinyStories train split
+M2_POOL_SIZE = 50_000 # M2: stories loaded from the TinyStoriesInstruct train split
 M2_TIME_BUDGET_S = 20 * 60  # M2: training time budget on a Colab T4 GPU (20 minutes)
 
 M3_N_STEPS = 200  # M3: optimizer steps on the original task
@@ -132,6 +132,24 @@ def load_new_task(train_size: int = M3_NEW_TRAIN_SIZE, val_size: int = M3_NEW_VA
     new_val = _read_instruct_entries("validation", val_size)
     print(f"Loaded {len(new_train):,} new-task training entries and {len(new_val):,} validation entries.")
     return new_train, new_val
+
+
+def load_instruct(pool_size: int = POOL_SIZE, val_size: int = VAL_SIZE) -> tuple[list[str], list[str]]:
+    """Load a fixed pool and validation set from TinyStoriesInstruct.
+
+    Every team gets exactly the same entries: the first `pool_size` entries of
+    the train split and the first `val_size` of the validation split. Each entry
+    is one string with header lines (such as Summary:, Words:, Features:) and a
+    Story: line, exactly as in the dataset.
+
+    Returns:
+        pool: entries you may train on.
+        val:  public validation entries for checking your progress.
+    """
+    pool = _read_instruct_entries("train", pool_size)
+    val = _read_instruct_entries("validation", val_size)
+    print(f"Loaded {len(pool):,} training entries and {len(val):,} validation entries from TinyStoriesInstruct.")
+    return pool, val
 
 
 def _read_instruct_entries(split: str, n: int) -> list[str]:
