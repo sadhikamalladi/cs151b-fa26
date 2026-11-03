@@ -238,13 +238,13 @@ nav{flex-wrap:wrap}
 .optional-resources summary:hover{color:#082d49}
 .optional-resources summary:focus-visible{outline:2px solid #287579;outline-offset:4px;border-radius:2px}
 .optional-resources .resource-count{font-weight:400;color:#526675;white-space:nowrap}
-.optional-resources .resource-key{font-size:.8rem;color:#526675;margin:10px 0 12px;line-height:1.5}
 .optional-resources ul{list-style:none;margin:0;padding:0}
 .optional-resources li{margin:0;padding:12px 0;border-top:1px solid #e4ebef;overflow-wrap:anywhere}
 .optional-resources li:first-child{padding-top:0;border-top:0}
 .optional-resources li:last-child{padding-bottom:0}
 .optional-resources li>a{font-weight:600;text-decoration:underline;text-underline-offset:2px}
-.resource-meta{display:block;font-size:.75rem;color:#526675;margin:4px 0}
-.resource-scope{font-weight:650}
-.resource-scope.extension{color:#8b481c}
-.resource-description{display:block;color:#42596b;font-size:.825rem;line-height:1.5}
+.optional-resources .resource-scope{display:block;font-size:.75rem;font-weight:650;color:#526675;margin-top:4px}
+.optional-resources .resource-scope.extension{color:#8b481c}
+
+.optional-resources .resource-scope.advanced{color:#64458a}
+.optional-resources .resource-group-title{font-size:.825rem;font-weight:700;color:#42596b;margin:18px 0 10px}
