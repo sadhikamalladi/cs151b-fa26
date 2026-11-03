@@ -230,3 +230,21 @@ nav{flex-wrap:wrap}
  .project-guide .page-nav{gap:5px 18px;font-size:.9rem}
 }
 @media print{.project-guide{width:100%;max-width:none}.mission-summary{break-inside:avoid}.project-guide .mission-summaries{grid-template-columns:1fr 1fr}}
+
+/* Optional companions stay collapsed so the weekly schedule remains scannable. */
+.optional-resources{margin:10px 0 20px;padding:10px 0 0;border-top:1px solid #dce5eb;font-size:.875rem;line-height:1.5}
+.optional-resources:last-child{margin-bottom:0}
+.optional-resources summary{cursor:pointer;color:#34566e;font-weight:650;padding:3px 0}
+.optional-resources summary:hover{color:#082d49}
+.optional-resources summary:focus-visible{outline:2px solid #287579;outline-offset:4px;border-radius:2px}
+.optional-resources .resource-count{font-weight:400;color:#526675;white-space:nowrap}
+.optional-resources .resource-key{font-size:.8rem;color:#526675;margin:10px 0 12px;line-height:1.5}
+.optional-resources ul{list-style:none;margin:0;padding:0}
+.optional-resources li{margin:0;padding:12px 0;border-top:1px solid #e4ebef;overflow-wrap:anywhere}
+.optional-resources li:first-child{padding-top:0;border-top:0}
+.optional-resources li:last-child{padding-bottom:0}
+.optional-resources li>a{font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.resource-meta{display:block;font-size:.75rem;color:#526675;margin:4px 0}
+.resource-scope{font-weight:650}
+.resource-scope.extension{color:#8b481c}
+.resource-description{display:block;color:#42596b;font-size:.825rem;line-height:1.5}
