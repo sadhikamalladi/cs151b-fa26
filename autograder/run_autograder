@@ -2,7 +2,5 @@
 # Gradescope runs this for every submission. Results go to /autograder/results/results.json.
 # AUTOGRADER_ROOT and AG_PYTHON let tests/run_local.sh run it outside Gradescope.
 ROOT="${AUTOGRADER_ROOT:-/autograder}"
-export HF_HOME="${HF_HOME:-/opt/hf}"
-export AUTOGRADER_DATA="$ROOT/source/grader/data"
 cd "$ROOT/source/grader"
-exec "${AG_PYTHON:-/opt/agvenv/bin/python}" grade.py --submission "$ROOT/submission" --results "$ROOT/results/results.json"
+exec "${AG_PYTHON:-python3}" grade.py --submission "$ROOT/submission" --results "$ROOT/results/results.json"

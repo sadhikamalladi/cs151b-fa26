@@ -1,13 +1,2 @@
-# Autograder Python packages (torch is installed separately from the CPU wheel index in setup.sh).
-# Core versions match the ones the autograder was tested with.
-transformers==5.23.0
-safetensors==0.8.0
-numpy==2.4.6
+# The autograder only reads files and talks to Google Drive; it runs no student code.
 requests==2.34.2
-datasets==5.2.0
-# Common in student code; present so imports in algorithm.py / benchmark.py do not fail
-peft
-scikit-learn
-scipy
-pandas
-tqdm

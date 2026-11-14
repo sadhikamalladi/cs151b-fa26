@@ -5,8 +5,7 @@
 Writes
     OUT_DIR/submissions/<name>/   one good submission per mission and broken ones, each with one problem
     OUT_DIR/drive/                the files "on Drive"; drive/mock.json maps fake Drive ids to them
-    OUT_DIR/expected.json         for each example: tests expected to fail / warn, and whether
-                                  to skip the (slow) code checks because only Drive differs
+    OUT_DIR/expected.json         for each example: tests expected to fail / warn
 
 Needs torch and transformers (it saves the base model once, about 280 MB, and links it everywhere).
 """
@@ -20,9 +19,6 @@ import zipfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, REPO)
-
-ALL_TESTS = ["1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "2.1", "2.2", "2.3", "2.4", "2.5",
-             "3.1", "3.2", "3.3", "3.4", "3.5"]
 
 # Student code
 M1_ALG = '''import common
@@ -74,18 +70,6 @@ BENCH_DATA = ["Features: Dialogue\nWords: kite, windy, brave\nSummary: Sam flies
               "It was a windy day. \"Let's fly it!\" said Mom. Sam was brave and held on tight.",
               "Once upon a time, there was a little cat named Tom. Tom liked to play in the sun."]
 
-BENCH_TEMPLATE = '''import common
-
-
-def team_benchmark(model, tokenizer) -> float:
-    """Evaluate `model` and return one number. Higher must mean better."""
-    # YOUR CODE HERE
-    raise NotImplementedError("Write your team benchmark.")
-'''
-BENCH_NONDETERMINISTIC = BENCH.replace("def team_benchmark(model, tokenizer) -> float:\n",
-                                       "CALLS = [0]\n\n\ndef team_benchmark(model, tokenizer) -> float:\n    CALLS[0] += 1\n") \
-    .replace("return -common", "return CALLS[0] - common")
-BENCH_CHANGES_WEIGHTS = BENCH.replace("    return -common", "    common.finetune(model, tokenizer, EXAMPLES, max_steps=1, log_every=0)\n    return -common")
 BENCH_MISSING_DATA = BENCH.replace("bench.json", "my_data.json")
 
 
@@ -248,51 +232,37 @@ def build_submissions(out):
     edited = open(os.path.join(REPO, "common.py")).read().replace("SEED = 151", "SEED = 152")
     m3_sig = M3_ALG.replace("new_texts: list[str], original_texts: list[str], m_steps: int",
                             "new_texts: list[str], m_steps: int")
-    m3_hard = M3_ALG.replace("max_steps=n_steps", "max_steps=common.M3_N_STEPS").replace(
-        "max_steps=m_steps", "max_steps=common.M3_M_STEPS")
-    m1_bad_idx = M1_ALG.replace("[:k]", "[:k + 50] + [0, 0]")
-    m1_none = M1_ALG.replace("    return model\n", "")
-    m2_crash = M2_ALG.replace("    common.finetune", "    texts = texts.split()\n    common.finetune")
-    import_err = "import common\n\nTOKENS = compute_tokens()\n\n" + M1_ALG.split("import common\n", 1)[1]
-    pkg = "import common\nimport fancy_selector_pkg\n\n" + M1_ALG.split("import common\n", 1)[1]
     net = "import common\nimport requests\n\n" + M1_ALG.split("import common\n", 1)[1]
+    drive = [f"2.{i}" for i in range(1, 6)]
 
-    # name: (submission kwargs, expected failures, expected warnings, drive-only)
+    # name: (submission kwargs, expected failures, expected warnings)
     cases = {
-        "good_m1": (dict(alg=M1_ALG), [], [], False),
-        "good_m2_zip_nested": (dict(alg=M2_ALG, link="file:zip_submission_file", nested="submission"), [], [], False),
-        "good_m3_nested_folder": (dict(alg=M3_ALG, link="folder:nested_submission_folder"), [], [], False),
-        "ok_m2_folder_with_zip": (dict(alg=M2_ALG, link="folder:folder_with_zip"), [], [], True),
-        "ok_custom_tokenizer_and_generation": (dict(alg=M3_ALG, link="folder:custom_tokenizer_folder"), [], [], True),
-        "warn_network_import": (dict(alg=net), [], ["1.6"], False),
-        "warn_missing_package": (dict(alg=pkg), [], ["2.1", "2.4", "2.5"], False),
-        "bad_missing_common": (dict(alg=M3_ALG, common_text=False), ["1.1", "1.2"], [], True),
-        "bad_edited_common": (dict(alg=M3_ALG, common_text=edited), ["1.2"], [], True),
-        "bad_m3_signature": (dict(alg=m3_sig), ["1.3", "2.4", "2.5"], [], False),
-        "bad_m3_hardcoded_steps": (dict(alg=m3_hard), ["2.4", "2.5"], [], False),
-        "bad_m1_indices": (dict(alg=m1_bad_idx), ["2.4"], [], False),
-        "bad_m1_train_returns_none": (dict(alg=m1_none), ["2.5"], [], False),
-        "bad_m2_train_error": (dict(alg=m2_crash), ["2.4"], [], False),
-        "bad_import_error": (dict(alg=import_err), ["2.1", "2.4", "2.5"], [], False),
-        "bad_benchmark_missing_data": (dict(alg=M3_ALG, bench=BENCH_MISSING_DATA), ["1.5", "2.2", "2.3"], [], False),
-        "bad_benchmark_template": (dict(alg=M3_ALG, bench=BENCH_TEMPLATE), ["2.3"], [], False),
-        "bad_benchmark_nondeterministic": (dict(alg=M3_ALG, bench=BENCH_NONDETERMINISTIC), ["2.3"], [], False),
-        "bad_benchmark_changes_weights": (dict(alg=M3_ALG, bench=BENCH_CHANGES_WEIGHTS), ["2.3"], [], False),
-        "bad_no_benchmark": (dict(alg=M3_ALG, bench=None, data=False), ["1.1", "1.4", "1.5", "2.2", "2.3"], [], False),
-        "bad_drive_missing_file": (dict(alg=M3_ALG, link=None), ["1.1"] + [f"3.{i}" for i in range(1, 6)], [], True),
-        "bad_drive_no_link": (dict(alg=M3_ALG, link="text:see google drive"), [f"3.{i}" for i in range(1, 6)], [], True),
-        "bad_drive_private": (dict(alg=M3_ALG, link="folder:private_folder_id"), [f"3.{i}" for i in range(2, 6)], [], True),
-        "bad_drive_network_error": (dict(alg=M3_ALG, link="folder:flaky_network_id"), [f"3.{i}" for i in range(2, 6)], [], True),
-        "bad_drive_no_model": (dict(alg=M3_ALG, link="folder:no_model_folder"), ["3.3", "3.4", "3.5"], [], True),
-        "bad_drive_lora_unmerged": (dict(alg=M3_ALG, link="folder:lora_folder"), ["3.3", "3.4", "3.5"], [], True),
-        "bad_drive_architecture": (dict(alg=M3_ALG, link="folder:bad_arch_folder"), ["3.4"], [], True),
-        "bad_drive_tensors": (dict(alg=M3_ALG, link="folder:bad_tensors_folder"), ["3.5"], [], True),
-        "bad_drive_truncated_upload": (dict(alg=M3_ALG, link="folder:truncated_folder"), ["3.5"], [], True),
+        "good_m1": (dict(alg=M1_ALG), [], []),
+        "good_m2_zip_nested": (dict(alg=M2_ALG, link="file:zip_submission_file", nested="submission"), [], []),
+        "good_m3_nested_folder": (dict(alg=M3_ALG, link="folder:nested_submission_folder"), [], []),
+        "ok_m2_folder_with_zip": (dict(alg=M2_ALG, link="folder:folder_with_zip"), [], []),
+        "ok_custom_tokenizer_and_generation": (dict(alg=M3_ALG, link="folder:custom_tokenizer_folder"), [], []),
+        "warn_network_import": (dict(alg=net), [], ["1.6"]),
+        "bad_missing_common": (dict(alg=M3_ALG, common_text=False), ["1.1", "1.2"], []),
+        "bad_edited_common": (dict(alg=M3_ALG, common_text=edited), ["1.2"], []),
+        "bad_m3_signature": (dict(alg=m3_sig), ["1.3"], []),
+        "bad_benchmark_missing_data": (dict(alg=M3_ALG, bench=BENCH_MISSING_DATA), ["1.5"], []),
+        "bad_benchmark_wrong_signature": (dict(alg=M3_ALG, bench=BENCH.replace("(model, tokenizer)", "(model)")), ["1.4"], []),
+        "bad_no_benchmark": (dict(alg=M3_ALG, bench=None, data=False), ["1.1", "1.4", "1.5"], []),
+        "bad_drive_missing_file": (dict(alg=M3_ALG, link=None), ["1.1"] + drive, []),
+        "bad_drive_no_link": (dict(alg=M3_ALG, link="text:see google drive"), drive, []),
+        "bad_drive_private": (dict(alg=M3_ALG, link="folder:private_folder_id"), drive[1:], []),
+        "bad_drive_network_error": (dict(alg=M3_ALG, link="folder:flaky_network_id"), drive[1:], []),
+        "bad_drive_no_model": (dict(alg=M3_ALG, link="folder:no_model_folder"), drive[2:], []),
+        "bad_drive_lora_unmerged": (dict(alg=M3_ALG, link="folder:lora_folder"), drive[2:], []),
+        "bad_drive_architecture": (dict(alg=M3_ALG, link="folder:bad_arch_folder"), ["2.4"], []),
+        "bad_drive_tensors": (dict(alg=M3_ALG, link="folder:bad_tensors_folder"), ["2.5"], []),
+        "bad_drive_truncated_upload": (dict(alg=M3_ALG, link="folder:truncated_folder"), ["2.5"], []),
     }
     expected = {}
-    for name, (kwargs, fails, warns, drive_only) in cases.items():
+    for name, (kwargs, fails, warns) in cases.items():
         submission(out, name, **kwargs)
-        expected[name] = {"fail": fails, "warn": warns, "drive_only": drive_only}
+        expected[name] = {"fail": fails, "warn": warns}
     with open(os.path.join(out, "expected.json"), "w") as f:
         json.dump(expected, f, indent=1)
     return expected

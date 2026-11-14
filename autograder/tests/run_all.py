@@ -2,7 +2,7 @@
 
     python autograder/tests/run_all.py [WORK_DIR] [--only NAME ...] [--jobs N]
 
-Uses the mock Drive. Examples marked drive_only skip the slow code checks (group 2).
+Uses the mock Drive.
 Exits non-zero if any example's failed/warned tests differ from what is expected.
 """
 import argparse
@@ -15,12 +15,10 @@ from concurrent.futures import ThreadPoolExecutor
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def run_one(work, name, spec, threads):
-    env = dict(os.environ, AUTOGRADER_DRIVE_MOCK=os.path.join(work, "drive", "mock.json"),
-               AG_TORCH_THREADS=str(threads))
-    if spec["drive_only"]:
-        env["AG_FLAGS"] = "--skip-code"
-    proc = subprocess.run(["bash", os.path.join(HERE, "run_local.sh"), os.path.join(work, "submissions", name)],
+def run_one(work, name, spec, zip_path):
+    env = dict(os.environ, AUTOGRADER_DRIVE_MOCK=os.path.join(work, "drive", "mock.json"))
+    proc = subprocess.run(["bash", os.path.join(HERE, "run_local.sh"), os.path.join(work, "submissions", name),
+                           zip_path],
                           env=env, capture_output=True, text=True)
     path = proc.stdout.strip().splitlines()[-1].split("results.json: ")[-1] if proc.stdout.strip() else ""
     if proc.returncode or not os.path.exists(path):
@@ -43,9 +41,10 @@ def main():
     args = ap.parse_args()
     expected = json.load(open(os.path.join(args.work, "expected.json")))
     names = args.only or list(expected)
-    threads = max(1, (os.cpu_count() or 4) // args.jobs)
+    zip_path = os.path.join(args.work, "autograder.zip")
+    subprocess.run(["bash", os.path.join(HERE, "..", "build_zip.sh"), zip_path], check=True, capture_output=True)
     with ThreadPoolExecutor(args.jobs) as pool:
-        outcomes = list(pool.map(lambda n: run_one(args.work, n, expected[n], threads), names))
+        outcomes = list(pool.map(lambda n: run_one(args.work, n, expected[n], zip_path), names))
     bad = 0
     for name, ok, detail, results in outcomes:
         print(f"{'OK  ' if ok else 'BAD '} {name}" + (f"\n     {detail}" if detail else ""))
