@@ -30,10 +30,10 @@ import dynamic  # noqa: E402
 import model_meta  # noqa: E402
 
 TIMEOUTS = {  # seconds; override with AG_TIMEOUT_<TASK>
-    "import": 120, "benchmark": 300, "m1_select": 180, "m1_train": 180, "m2_budget": 120,
+    "import": 120, "benchmark": 300, "m1_select": 180, "m1_train": 180, "m2_train": 180,
     "m3_phase1": 180, "m3_phase2": 180, "drive": 180,
 }
-M3_N, M3_M, M2_BUDGET = 3, 4, 30  # step counts and budget used for the small training runs
+M3_N, M3_M = 3, 4  # step counts used for the small M3 training runs
 
 
 def timeout(task):
@@ -149,7 +149,7 @@ def dynamic_checks(report, submission, details, ok):
     alg_dir = code_dir(sandbox, paths, "algorithm.py") if alg_ok else None
     bench_dir = code_dir(sandbox, paths, "benchmark.py") if paths.get("benchmark.py") else None
     mission_tests = {"M1": [("2.4", "select_examples returns valid indices"), ("2.5", "train runs on CPU")],
-                     "M2": [("2.4", "train respects time_budget_s")],
+                     "M2": [("2.4", "train runs on CPU")],
                      "M3": [("2.4", f"train_original takes exactly n_steps ({M3_N})"),
                             ("2.5", f"train_new takes exactly m_steps ({M3_M})")]}.get(mission, [])
 
@@ -206,12 +206,10 @@ def dynamic_checks(report, submission, details, ok):
                    f"finished (or reached 6 steps) within {timeout('m1_train'):.0f}s on CPU."}
         _report_simple(report, "2.5", mission_tests[1][1], res, "", 0)
     elif mission == "M2":
-        res = dynamic.run("m2_budget", alg_dir, timeout("m2_budget"),
-                          {"AG_M2_BUDGET": str(M2_BUDGET)})
+        res = dynamic.run("m2_train", alg_dir, timeout("m2_train"))
         if res["status"] == "timeout":
-            res = {"status": "fail", "message": f"train(..., time_budget_s={M2_BUDGET}) was still running after "
-                   f"{timeout('m2_budget'):.0f}s. It must stop within time_budget_s: use the argument rather than "
-                   "common.M2_TIME_BUDGET_S, and count data preparation inside the budget."}
+            res = {"status": "warn", "message": f"train() ran {steps_seen(res)} optimizer steps but had not "
+                   f"finished (or reached 6 steps) within {timeout('m2_train'):.0f}s on CPU."}
         _report_simple(report, "2.4", mission_tests[0][1], res, "", 0)
     elif mission == "M3":
         for (number, name), task, n in zip(mission_tests, ["m3_phase1", "m3_phase2"], [M3_N, M3_M]):

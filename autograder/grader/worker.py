@@ -221,30 +221,6 @@ def task_train_smoke(sub, torch, common, get, fn_name, args_fn, stop_after):
     result("pass", f"{fn_name}() finished without errors ({counter.count} optimizer steps) and returned the model.")
 
 
-def task_m2_budget(sub, torch, common, get, budget, grace):
-    fn = load(common, os.path.join(sub, "algorithm.py"), "train", "Importing algorithm.py")
-    model, tokenizer = common.load_model(device="cpu")
-    texts = shortest(get("instruct_train"), 2000)
-    counter = StepCounter(torch)
-    emit("start", budget=budget)
-    start = time.time()
-    try:
-        returned = fn(model, tokenizer, texts, budget)
-    except Exception as e:  # noqa: BLE001
-        classify(e, f"train(model, tokenizer, texts, time_budget_s={budget})")
-    elapsed = time.time() - start
-    if elapsed > budget + grace:
-        result("fail", f"train(..., time_budget_s={budget}) took {elapsed:.1f}s. It must return within "
-                       "time_budget_s, counted from the call until it returns (including data preparation). "
-                       "Use the time_budget_s argument rather than common.M2_TIME_BUDGET_S.")
-    check_returned_model(torch, returned, "train")
-    if counter.count == 0:
-        result("warn", f"train(..., time_budget_s={budget}) returned in {elapsed:.1f}s but took no optimizer "
-                       "steps on this CPU. Check that it trains when given a short budget.")
-    result("pass", f"train(..., time_budget_s={budget}) returned the model after {elapsed:.1f}s and "
-                   f"{counter.count} optimizer steps (on CPU; the real budget is 20 minutes on a T4).")
-
-
 def task_m3_exact(sub, torch, common, get, fn_name, n):
     fn = load(common, os.path.join(sub, "algorithm.py"), fn_name, "Importing algorithm.py")
     model, tokenizer = common.load_model(device="cpu")
@@ -289,9 +265,9 @@ def main():
     elif task == "m1_train":
         task_train_smoke(sub, torch, common, get, "train",
                          lambda: (shortest(get("instruct_train"), 16),), stop_after=6)
-    elif task == "m2_budget":
-        task_m2_budget(sub, torch, common, get, float(os.environ.get("AG_M2_BUDGET", 30)),
-                       float(os.environ.get("AG_M2_GRACE", 5)))
+    elif task == "m2_train":  # full budget passed; stopped after a few steps (no timing check on CPU)
+        task_train_smoke(sub, torch, common, get, "train",
+                         lambda: (shortest(get("instruct_train"), 2000), common.M2_TIME_BUDGET_S), stop_after=6)
     elif task == "m3_phase1":
         task_m3_exact(sub, torch, common, get, "train_original", int(os.environ.get("AG_M3_N", 3)))
     elif task == "m3_phase2":

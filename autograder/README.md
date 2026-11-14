@@ -20,7 +20,7 @@ Every check is a visible, 0-point pass/fail test. A passing test whose output st
 | 2.2 | `benchmark.py` imports via `common.load_function` | an import error |
 | 2.3 | `team_benchmark` runs on the base model | error, non-number, NaN/inf, not deterministic across two seeded runs, or it changes the weights |
 | 2.4/2.5 M1 | `select_examples(pool, 100)` on the real 10k pool; `train` on 16 short entries | indices >100, duplicates, or out of range; `train` errors or does not return the model |
-| 2.4 M2 | `train(..., time_budget_s=30)` | returns more than 5 s after the budget (killed at 120 s), errors, or does not return the model |
+| 2.4 M2 | `train(model, tokenizer, texts, time_budget_s=1200)` on 2,000 short entries, stopped after 6 steps | `train` errors or does not return the model (no timing check: Gradescope is CPU-only) |
 | 2.4/2.5 M3 | `train_original(..., n_steps=3)`, `train_new(..., m_steps=4)` | not *exactly* that many optimizer steps, errors, or does not return the model |
 | 3.1 | `drive_link.txt` has a Drive link | no `drive.google.com` folder/file link |
 | 3.2 | Drive link is shared publicly | Drive asks for a sign-in, the link is not found, or Drive cannot be reached |
@@ -45,7 +45,7 @@ Every check is a visible, 0-point pass/fail test. A passing test whose output st
 
 ### Things that give a WARNING instead of a failure
 The code checks run on CPU, and the autograder is not Colab, so these warn rather than fail:
-- a check timed out (except M2's, where running past the budget *is* the failure);
+- a check timed out;
 - the check ran out of memory;
 - the error mentions CUDA;
 - a module is missing (a pip package the autograder doesn't have, or a helper file the
@@ -61,9 +61,10 @@ The code checks run on CPU, and the autograder is not Colab, so these warn rathe
   bundled copies of the first 10,000 / 1,000 entries of each split, so student code never
   downloads datasets.
 - Steps are counted the way `common.finetune` counts them: every `optimizer.step()` call on
-  any `torch.optim` optimizer, through a global step hook. M1 training stops after 6 steps,
+  any `torch.optim` optimizer, through a global step hook. M1 and M2 training stop after 6 steps,
   and M3 stops as soon as it goes over the requested count.
-- Training checks use the shortest entries to keep each CPU step fast.
+- Training checks use the shortest entries to keep each CPU step fast. No check measures
+  training time against a budget (M2's 20 minutes is a T4 limit).
 - The Drive checks run in a thread, in parallel with the code checks.
 
 ## Build the zip
@@ -127,7 +128,7 @@ AUTOGRADER_DRIVE_MOCK=autograder/tests/work/drive/mock.json \
 Examples include `good_m1`, `good_m2_zip_nested` (a zip link, with files nested in the
 upload), `good_m3_nested_folder`, `ok_*`, `warn_*`, and one `bad_*` for each failure: missing
 or edited `common.py`, wrong signature, hard-coded M3 steps, bad M1 indices, `train`
-returning `None`, ignoring the M2 budget, import error, benchmark problems (missing data,
+returning `None`, M2 `train` error, import error, benchmark problems (missing data,
 template, nondeterministic, changes weights), and Drive problems (no link, private,
 network error, no model, unmerged LoRA, wrong architecture, wrong tensors, truncated upload).
 
@@ -146,7 +147,7 @@ machine size.
   Try `grader/drive.py` on a real public folder, a public zip, and a private link before release.
   If Google changes those pages, 3.2–3.5 fail for everyone with "Google Drive returned a web page".
 - CPU timing says nothing about T4 timing. 2.3 does not enforce the 5-minute benchmark limit,
-  and 2.4 on M2 only checks that `time_budget_s` is respected at 30 s.
+  and nothing checks the M2 training budget; staff check that by rerunning on a T4.
 - Using several optimizers counts each one's `step()` call separately.
 
 ## Notebook text to update (not changed here)

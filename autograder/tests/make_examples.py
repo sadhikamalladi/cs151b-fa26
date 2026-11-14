@@ -252,7 +252,7 @@ def build_submissions(out):
         "max_steps=m_steps", "max_steps=common.M3_M_STEPS")
     m1_bad_idx = M1_ALG.replace("[:k]", "[:k + 50] + [0, 0]")
     m1_none = M1_ALG.replace("    return model\n", "")
-    m2_ignore = M2_ALG.replace("time_budget_s=time_budget_s", "time_budget_s=common.M2_TIME_BUDGET_S")
+    m2_crash = M2_ALG.replace("    common.finetune", "    texts = texts.split()\n    common.finetune")
     import_err = "import common\n\nTOKENS = compute_tokens()\n\n" + M1_ALG.split("import common\n", 1)[1]
     pkg = "import common\nimport fancy_selector_pkg\n\n" + M1_ALG.split("import common\n", 1)[1]
     net = "import common\nimport requests\n\n" + M1_ALG.split("import common\n", 1)[1]
@@ -272,7 +272,7 @@ def build_submissions(out):
         "bad_m3_hardcoded_steps": (dict(alg=m3_hard), ["2.4", "2.5"], [], False),
         "bad_m1_indices": (dict(alg=m1_bad_idx), ["2.4"], [], False),
         "bad_m1_train_returns_none": (dict(alg=m1_none), ["2.5"], [], False),
-        "bad_m2_ignores_budget": (dict(alg=m2_ignore), ["2.4"], [], False),
+        "bad_m2_train_error": (dict(alg=m2_crash), ["2.4"], [], False),
         "bad_import_error": (dict(alg=import_err), ["2.1", "2.4", "2.5"], [], False),
         "bad_benchmark_missing_data": (dict(alg=M3_ALG, bench=BENCH_MISSING_DATA), ["1.5", "2.2", "2.3"], [], False),
         "bad_benchmark_template": (dict(alg=M3_ALG, bench=BENCH_TEMPLATE), ["2.3"], [], False),
