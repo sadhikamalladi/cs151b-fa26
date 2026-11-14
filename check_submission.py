@@ -61,10 +61,10 @@ def file_hash(path):
         return hashlib.sha256(f.read().replace(b"\r\n", b"\n")).hexdigest()
 
 
-def find(name):
+def find(name, folder=None):
     """Return the path of the first file named `name` anywhere in the submission folder, or None.
     """
-    for root, _, files in os.walk(SUBMISSION_DIR):
+    for root, _, files in sorted(os.walk(folder or SUBMISSION_DIR)):
         if name in files:
             return os.path.join(root, name)
     return None
@@ -138,21 +138,27 @@ def detect_mission(funcs):
 
 
 # Checks
-def run_checks():
-    """Run every check on SUBMISSION_DIR.
+def run_checks(folder=None, details=None):
+    """Run every check on `folder` (default SUBMISSION_DIR).
 
     Returns:
         results:  list of {"name", "passed", "message"}, one per check.
         warnings: list of messages to review by hand; these do not fail the submission.
+    If `details` is a dict, it is filled with "paths" (found files) and "mission" (or None),
+    which the Gradescope autograder uses.
     """
+    folder = folder or SUBMISSION_DIR
     results, warnings = [], []
+    details = {} if details is None else details
+    details["mission"] = None
 
     def check(name, passed, message):
         """Record the result of one check."""
         results.append({"name": name, "passed": passed, "message": message})
 
     # Required files
-    paths = {f: find(f) for f in REQUIRED_FILES}
+    paths = {f: find(f, folder) for f in REQUIRED_FILES}
+    details["paths"] = paths
     missing = [f for f, p in paths.items() if p is None]
     check("Required files present", not missing,
           "All required files found." if not missing else f"Missing: {', '.join(missing)}")
@@ -170,6 +176,7 @@ def run_checks():
             tree = parse(paths["algorithm.py"])
             funcs = functions(tree)
             mission = detect_mission(funcs)
+            details["mission"] = mission
             loads = data_loading_in(tree, TRAIN_FUNCTIONS)
             if loads:
                 warnings.append("algorithm.py loads data inside a training function: " + ", ".join(loads)
@@ -205,7 +212,7 @@ def run_checks():
             names = {os.path.basename(n.value) for n in ast.walk(tree)
                      if isinstance(n, ast.Constant) and isinstance(n.value, str)
                      and n.value.lower().endswith(DATA_EXTENSIONS) and "\n" not in n.value}
-            missing_data = sorted(n for n in names if find(n) is None)
+            missing_data = sorted(n for n in names if find(n, folder) is None)
             check("Benchmark data files present", not missing_data,
                   "All data files benchmark.py refers to were found." if not missing_data else
                   f"benchmark.py refers to files not in your upload: {', '.join(missing_data)}. "
@@ -236,7 +243,7 @@ def main():
     if not os.path.isdir(SUBMISSION_DIR):
         sys.exit(f"Folder not found: {SUBMISSION_DIR}")
 
-    results, warnings = run_checks()
+    results, warnings = run_checks(SUBMISSION_DIR)
     for r in results:
         print(("PASS  " if r["passed"] else "FAIL  ") + r["name"] + ": " + r["message"])
     for w in warnings:
